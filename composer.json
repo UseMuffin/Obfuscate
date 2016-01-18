@@ -41,6 +41,8 @@
         "hashids/hashids": "1.0.5"
     },
     "suggest": {
+        "zackkitzmiller/tiny": "A reversible base62 ID obfuscater",
+        "jenssegers/optimus": "Id obfuscation based on Knuth's multiplicative hashing method",
         "hashids/hashids": "Generate hashids like YouTube or Bitly from numbers to obfuscate your database primary ids, or navigate to the right shard"
     },
     "autoload": {
