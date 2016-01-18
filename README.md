@@ -31,6 +31,7 @@ Plugin::load('Muffin/Obfuscate');
 
 First, you will need to choose one of the two (2) built-in strategies:
 
+- `Hashids` which requires the [hashids/hashids](http://hashids.org/php/) package, or
 - `OptimusStrategy` which requires the [jenssegers/optimus](https://github.com/jenssegers/optimus) package, or
 - `TinyStrategy` which requires the [zackkitzmiller/tiny](https://github.com/zackkitzmiller/tiny-php/) package.
 

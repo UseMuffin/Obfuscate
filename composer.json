@@ -37,7 +37,11 @@
         "cakephp/cakephp-codesniffer": "2.*",
         "phpunit/phpunit": "4.1.*",
         "zackkitzmiller/tiny": "1.2.0",
-        "jenssegers/optimus": "0.2.0"
+        "jenssegers/optimus": "0.2.0",
+        "hashids/hashids": "1.0.5"
+    },
+    "suggest": {
+        "hashids/hashids": "Generate hashids like YouTube or Bitly from numbers to obfuscate your database primary ids, or navigate to the right shard"
     },
     "autoload": {
         "psr-4": {
