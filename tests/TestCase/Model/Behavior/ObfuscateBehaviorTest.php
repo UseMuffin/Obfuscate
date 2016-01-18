@@ -113,6 +113,5 @@ class ObfuscateBehaviorTest extends TestCase
 
     public function testStrategy()
     {
-
     }
 }

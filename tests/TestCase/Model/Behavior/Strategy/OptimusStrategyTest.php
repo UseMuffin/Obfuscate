@@ -19,5 +19,4 @@ class OptimusStrategyTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(1, $this->strategy->elucidate(1985404696));
     }
-
 }

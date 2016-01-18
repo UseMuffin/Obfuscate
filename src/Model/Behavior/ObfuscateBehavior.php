@@ -31,15 +31,20 @@ class ObfuscateBehavior extends Behavior
         ],
     ];
 
+    /**
+     * Initialize behavior
+     *
+     * @param array $config Behavior's configuration.
+     * @return void
+     */
     public function initialize(array $config)
     {
         $this->verifyConfig();
     }
 
     /**
-     * {@inheritdoc}
+     * Verify config.
      *
-     * @param array $config Behavior's configuration.
      * @return void
      */
     public function verifyConfig()
@@ -58,8 +63,8 @@ class ObfuscateBehavior extends Behavior
     /**
      * Callback to obfuscate the record(s)' primary key returned after a save operation.
      *
-     * @param \Moments\Gis\Model\Behavior\Event $event Event.
-     * @param \Moments\Gis\Model\Behavior\EntityInterface $entity Entity.
+     * @param \Cake\ORM\Behavior\Event $event Event.
+     * @param \Cake\ORM\Behavior\EntityInterface $entity Entity.
      * @param \ArrayObject $options Options.
      * @return void
      */
@@ -73,7 +78,7 @@ class ObfuscateBehavior extends Behavior
     /**
      * Callback to set the `obfuscated` finder on all associations.
      *
-     * @param \Moments\Gis\Model\Behavior\Event $event Event.
+     * @param \Cake\ORM\Behavior\Event $event Event.
      * @param \Cake\ORM\Query $query Query.
      * @param \ArrayObject $options Options.
      * @param bool $primary True if this is the primary table.
@@ -136,7 +141,7 @@ class ObfuscateBehavior extends Behavior
     /**
      * Get the configured strategy.
      *
-     * @return \Moments\Gis\Model\Behavior\ObfuscateStrategy\StrategyInterface
+     * @return \Muffin\Obfuscate\Model\Behavior\ObfuscateStrategy\StrategyInterface
      */
     public function strategy()
     {
