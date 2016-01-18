@@ -96,9 +96,9 @@ class ObfuscateBehaviorTest extends TestCase
 
     public function testFindObfuscated()
     {
-        $results = $this->Articles->find('obfuscated')->toArray();
+        $results = $this->Articles->find('obfuscated')->where(['id' => 'S'])->toArray();
         $this->assertEquals('S', $results[0]['id']);
-        $this->assertEquals('X', $results[1]['id']);
+        $this->assertCount(1, $results);
     }
 
     public function testObfuscate()

@@ -90,6 +90,15 @@ class ObfuscateBehavior extends Behavior
             return;
         }
 
+        $query->traverseExpressions(function ($expression) {
+            if (method_exists($expression, 'getField')
+                && $expression->getField() === $this->_table->primaryKey()
+            ) {
+                $expression->setValue($this->elucidate($expression->getValue()));
+            }
+            return $expression;
+        });
+
         foreach ($this->_table->associations() as $association) {
             if ($association->target()->hasBehavior('Obfuscate') && 'all' === $association->finder()) {
                 $association->finder('obfuscated');
