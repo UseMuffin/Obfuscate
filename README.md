@@ -31,8 +31,8 @@ Plugin::load('Muffin/Obfuscate');
 
 First, you will need to choose one of the two (2) built-in strategies:
 
-- `OptimusStrategy` which requires the [] package, or
-- `TinyStrategy` which requires the [] package.
+- `OptimusStrategy` which requires the [jenssegers/optimus](https://github.com/jenssegers/optimus) package, or
+- `TinyStrategy` which requires the [zackkitzmiller/tiny](https://github.com/zackkitzmiller/tiny-php/) package.
 
 Once you have installed the required package, you are ready to set up obfuscation.
 
