@@ -39,8 +39,12 @@ Once you have installed the required package, you are ready to set up obfuscatio
 In any table, add the behavior like so (example showing the `TinyStrategy`):
 
 ```php
+use Muffin\Obfuscate\Model\Behavior\Strategy\TinyStrategy;
+
+// ...
+
 $this->addBehavior('Muffin/Obfuscate.Obfuscate', [
-    'strategy' => new \ZackKitzmiller\TinyStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B')
+    'strategy' => new TinyStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B')
 ]);
 ```
 
