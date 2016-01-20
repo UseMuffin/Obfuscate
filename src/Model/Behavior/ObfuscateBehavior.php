@@ -91,8 +91,9 @@ class ObfuscateBehavior extends Behavior
         }
 
         $query->traverseExpressions(function ($expression) {
+            $pk = $this->_table->primaryKey();
             if (method_exists($expression, 'getField')
-                && $expression->getField() === $this->_table->primaryKey()
+                && in_array($expression->getField(), [$pk, $this->_table->aliasField($pk)])
             ) {
                 $expression->setValue($this->elucidate($expression->getValue()));
             }
