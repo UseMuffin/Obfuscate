@@ -58,6 +58,8 @@ class ObfuscateBehavior extends Behavior
                 'Strategy must implement the `Muffin\Obfuscate\Model\Behavior\Strategy\StrategyInterface`'
             );
         }
+
+        parent::verifyConfig();
     }
 
     /**
