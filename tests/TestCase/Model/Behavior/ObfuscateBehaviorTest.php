@@ -80,9 +80,13 @@ class ObfuscateBehaviorTest extends TestCase
         $this->assertFalse($entity->dirty('id'));
     }
 
-    public function testBeforeFind()
+    /**
+     * Make sure primary keys in returned result set are obfuscated when using
+     * the `obfuscate` custom finder.
+     */
+    public function testFindObfuscate()
     {
-        $result = $this->Articles->find()->contain([
+        $result = $this->Articles->find('obfuscate')->contain([
             $this->Authors->alias(),
             $this->Comments->alias(),
             $this->Tags->alias(),
@@ -94,15 +98,46 @@ class ObfuscateBehaviorTest extends TestCase
         $this->assertEquals(2, $result['comments'][1]['id']);
     }
 
+    /**
+     * Make sure primary keys in the returned result set are NOT obfuscated
+     * when using default find.
+     */
+    public function testFindWithoutObfuscate()
+    {
+        $result = $this->Articles->find()->contain([
+            $this->Authors->alias(),
+            $this->Comments->alias(),
+            $this->Tags->alias(),
+        ])->first();
+
+        $this->assertEquals('1', $result['author']['id']);
+        $this->assertEquals('1', $result['tags'][0]['id']);
+        $this->assertEquals(1, $result['comments'][0]['id']);
+        $this->assertEquals(2, $result['comments'][1]['id']);
+    }
+
+    /**
+     * Make sure we can search for records using obfuscated primary key when
+     * using the `obfuscated` custom finder.
+     */
     public function testFindObfuscated()
     {
-        $results = $this->Articles->find('obfuscated')->where(['id' => 'S'])->toArray();
-        $this->assertEquals('S', $results[0]['id']);
-        $this->assertCount(1, $results);
+        $results = $this->Articles->find('obfuscated')
+            ->where(['id' => 'S'])
+            ->toArray();
+        $this->assertEquals('1', $results[0]['id']);
+    }
 
-        $results = $this->Articles->find('obfuscated')->where(['Articles.id' => 'S'])->toArray();
-        $this->assertEquals('S', $results[0]['id']);
-        $this->assertCount(1, $results);
+    /**
+     * Make sure we can search for records using non-obfuscated primary key
+     * when using default find.
+     */
+    public function testFindWithoutObfuscated()
+    {
+        $results = $this->Articles->find()
+            ->where(['id' => '1'])
+            ->toArray();
+        $this->assertEquals('1', $results[0]['id']);
     }
 
     public function testObfuscate()

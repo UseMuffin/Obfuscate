@@ -24,6 +24,7 @@ class ObfuscateBehavior extends Behavior
         'strategy' => null,
         'implementedFinders' => [
             'obfuscated' => 'findObfuscated',
+            'obfuscate' => 'findObfuscate'
         ],
         'implementedMethods' => [
             'obfuscate' => 'obfuscate',
@@ -88,7 +89,7 @@ class ObfuscateBehavior extends Behavior
      */
     public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary)
     {
-        if (!$primary) {
+        if (empty($options['obfuscate']) || !$primary) {
             return;
         }
 
@@ -99,18 +100,19 @@ class ObfuscateBehavior extends Behavior
             ) {
                 $expression->setValue($this->elucidate($expression->getValue()));
             }
+
             return $expression;
         });
 
         foreach ($this->_table->associations() as $association) {
             if ($association->target()->hasBehavior('Obfuscate') && 'all' === $association->finder()) {
-                $association->finder('obfuscated');
+                $association->finder('obfuscate');
             }
         }
     }
 
     /**
-     * Custom finder to obfuscate the primary key in the result set.
+     * Custom finder to search for records using an obfuscated primary key.
      *
      * @param \Cake\ORM\Query $query Query.
      * @param array $options Options.
@@ -118,6 +120,20 @@ class ObfuscateBehavior extends Behavior
      */
     public function findObfuscated(Query $query, array $options)
     {
+        return $query->applyOptions(['obfuscate' => true]);
+    }
+
+    /**
+     * Custom finder that obfuscates primary keys in returned result set.
+     *
+     * @param \Cake\ORM\Query $query Query.
+     * @param array $options Options.
+     * @return \Cake\ORM\Query
+     */
+    public function findObfuscate(Query $query, array $options)
+    {
+        $query->applyOptions(['obfuscate' => true]);
+
         $query->formatResults(function ($results) {
             return $results->map(function ($row) {
                 $pk = $this->_table->primaryKey();
