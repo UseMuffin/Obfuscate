@@ -5,7 +5,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/muffin/obfuscate.svg?style=flat-square)](https://packagist.org/packages/muffin/obfuscate)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 
-CakePHP 3 support for ID obfuscation.
+CakePHP 3 support for ID obfuscation using any combination of HashIds, Optimus and/or Tiny.
 
 ## Install
 
@@ -29,13 +29,16 @@ Plugin::load('Muffin/Obfuscate');
 
 ## Usage
 
-First, you will need to choose one of the two (2) built-in strategies:
+### Enabling the behavior
+
+First, you will need to choose one of the two (3) built-in strategies:
 
 - `Hashids` which requires the [hashids/hashids](http://hashids.org/php/) package, or
 - `OptimusStrategy` which requires the [jenssegers/optimus](https://github.com/jenssegers/optimus) package, or
 - `TinyStrategy` which requires the [zackkitzmiller/tiny](https://github.com/zackkitzmiller/tiny-php/) package.
 
-Once you have installed the required package, you are ready to set up obfuscation.
+Once you have (composer) installed the required package, you are ready to set up
+obfuscation.
 
 In any table, add the behavior like so (example showing the `TinyStrategy`):
 
@@ -49,12 +52,89 @@ $this->addBehavior('Muffin/Obfuscate.Obfuscate', [
 ]);
 ```
 
-By default, the behavior will listen to the `Model.afterSave` and `Model.beforeFind` events.
+## Opt-in
 
-It will also make available on the table two (2) methods:
+Please be aware that the plugin is totally unobtrusive and will do absolutely
+nothing unless you use one of the two (2) custom finders inside your
+`Model.afterSave` or `Model.beforeFind` events:
 
-- `obfuscate(string $str)` 
+- `findObfuscated`: use to find records using an obfuscated (cloaked) primary key
+- `findObfuscate`: use to obfuscate (cloak) all primary keys in a find result set
+
+### findObfuscated
+
+Use this finder if you want to look up a record using an obfuscated id.
+The plugin will elucidate (uncloak) the obfuscated id and will execute the find
+using the "normal" primary key as it is used inside your database.
+
+CakePHP example:
+```php
+public function beforeFind()
+{
+    $this->Articles->find('obfuscated')
+        ->where(['id' => 'S']); // will search for id 1
+}
+```
+
+CRUD example:
+```php
+public function view()
+{
+    $this->Crud->on('beforeFind', function (Event $event) {
+        $event->subject()->query->find('obfuscated');
+}
+```
+
+### findObfuscate
+
+Use this finder if you want the plugin to obfuscate all "normal" primary keys
+found in a find result set.
+
+CakePHP example:
+```php
+public function beforeFind()
+{
+    $this->Articles->find('obfuscate');
+}
+```
+
+CRUD example:
+```php
+public function index()
+{
+    $this->Crud->on('beforePaginate', function (Event $event) {
+        $event->subject()->query->find('obfuscate');
+}
+```
+
+### Methods
+
+Attaching the behavior also makes the following two (2) methods
+available on the table:
+
+- `obfuscate(string $str)`
 - `elucidate(string $str)`
+
+## Pro tips
+
+### Authentication
+
+A fairly common use case is applying obfuscation to user ids. To ensure
+AuthComponent properly handles obfuscated ids specify the `obfuscated` finder
+in your `authenticate` configuration settings like shown below:
+
+```php
+'authenticate' => [
+     'ADmad/JwtAuth.Jwt' => [
+        'finder' => 'obfuscated',
+        'userModel' => 'Users',
+        'fields' => [
+            'username' => 'id'
+        ],
+        'parameter' => 'token'
+    ]
+]
+```
 
 ## Patches & Features
 
