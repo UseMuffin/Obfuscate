@@ -5,61 +5,102 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/muffin/obfuscate.svg?style=flat-square)](https://packagist.org/packages/muffin/obfuscate)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 
-CakePHP 3 support for ID obfuscation using any combination of HashIds, Optimus and/or Tiny.
+Primary key obfuscation for CakePHP 3 using HashIds, Optimus, Tiny and/or custom obfuscation strategies.
 
-## Install
+## Requirements
 
-Using [Composer][composer]:
+- CakePHP 3.0+
+
+## Installation
+
+Install the plugin using [Composer](https://getcomposer.org):
 
 ```
 composer require muffin/obfuscate:dev-master
 ```
 
-You then need to load the plugin. You can use the shell command:
+You then need to load the plugin by either running this shell command:
 
 ```
 bin/cake plugin load Muffin/Obfuscate
 ```
 
-or by manually adding statement shown below to `bootstrap.php`:
+or by manually adding the following line to ``config/bootstrap.php``:
 
 ```php
 Plugin::load('Muffin/Obfuscate');
 ```
 
+Lastly, composer install (any combination of) the obfuscation libraries you
+want to use in your application:
+
+```
+composer install hashids/hashids
+composer install jenssegers/optimus
+composer install zackkitzmiller/tiny
+```
+
+## Built-in obfuscation strategies
+
+Use the [HashIdStrategy](http://hashids.org/) if you want to:
+
+- obfuscate your primary keys with short, unique, non-sequential ids
+- present record ids like 347 as strings like “yr8”
+
+Use the [OptimusStrategy](https://github.com/jenssegers/optimus) if you want to:
+
+- obfuscate your primary keys with integers based on Knuth's integer hash
+- present record ids like 347 as integers like 372555994
+
+Use the [TinyStrategy](https://github.com/zackkitzmiller/tiny-php) if you want to:
+
+- obfuscate your primary keys with base62 strings and integers
+- present record ids like 347 as strings like "vk"
+
+> You may also choose to create your own custom strategies, feel free to PR.
+
 ## Usage
 
-### Enabling the behavior
+### 1. Attaching the behavior
 
-First, you will need to choose one of the two (3) built-in strategies:
+Prepare for obfuscation by attaching the Obfuscate behavior to your table(s)
+and specifying which strategy you want to use as shown in the following examples.
 
-- `Hashids` which requires the [hashids/hashids](http://hashids.org/php/) package, or
-- `OptimusStrategy` which requires the [jenssegers/optimus](https://github.com/jenssegers/optimus) package, or
-- `TinyStrategy` which requires the [zackkitzmiller/tiny](https://github.com/zackkitzmiller/tiny-php/) package.
+```php
+use Muffin\Obfuscate\Model\Behavior\Strategy\HashIdStrategy;
 
-Once you have (composer) installed the required package, you are ready to set up
-obfuscation.
+$this->addBehavior('Muffin/Obfuscate.Obfuscate', [
+    'strategy' => new HashIdStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B')
+]);
+```
 
-In any table, add the behavior like so (example showing the `TinyStrategy`):
+```php
+use Muffin\Obfuscate\Model\Behavior\Strategy\OptimusStrategy;
+
+$this->addBehavior('Muffin/Obfuscate.Obfuscate', [
+    'strategy' => new OptimusStrategy(2123809381, 1885413229, 146808189)
+]);
+```
 
 ```php
 use Muffin\Obfuscate\Model\Behavior\Strategy\TinyStrategy;
-
-// ...
 
 $this->addBehavior('Muffin/Obfuscate.Obfuscate', [
     'strategy' => new TinyStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B')
 ]);
 ```
 
-## Opt-in
+> Please note that attaching the behavior is totally unobtrusive and will do
+> absolutely nothing until you use one of the custom finders.
 
-Please be aware that the plugin is totally unobtrusive and will do absolutely
-nothing unless you use one of the two (2) custom finders inside your
-`Model.afterSave` or `Model.beforeFind` events:
+### 2. Using the custom finders
 
-- `findObfuscated`: use to find records using an obfuscated (cloaked) primary key
-- `findObfuscate`: use to obfuscate (cloak) all primary keys in a find result set
+This plugin comes with the following two custom finders that are responsible for
+the actual obfuscation (cloaking) and elucidation (uncloaking) process and need
+to be used inside your `Model.afterSave` or `Model.beforeFind` events:
+
+- `findObfuscated`: used to find records using an obfuscated (cloaked) primary key
+- `findObfuscate`: used to obfuscate (cloak) all primary keys in a find result set
 
 ### findObfuscated
 
@@ -85,7 +126,7 @@ public function view()
 }
 ```
 
-### findObfuscate
+#### findObfuscate
 
 Use this finder if you want the plugin to obfuscate all "normal" primary keys
 found in a find result set.
@@ -109,7 +150,7 @@ public function index()
 
 ### Methods
 
-Attaching the behavior also makes the following two (2) methods
+Attaching the behavior also makes the following two methods
 available on the table:
 
 - `obfuscate(string $str)`
@@ -126,7 +167,7 @@ in your `authenticate` configuration settings like shown below:
 ```php
 'authenticate' => [
      'ADmad/JwtAuth.Jwt' => [
-        'finder' => 'obfuscated',
+        'finder' => 'obfuscated', // will use passed id `S` to search for record id 1
         'userModel' => 'Users',
         'fields' => [
             'username' => 'id'
