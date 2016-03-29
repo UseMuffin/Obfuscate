@@ -16,7 +16,7 @@ Primary key obfuscation for CakePHP 3 using HashIds, Optimus, Tiny and/or custom
 Install the plugin using [Composer](https://getcomposer.org):
 
 ```
-composer require muffin/obfuscate:dev-master
+composer require muffin/obfuscate:1.0.x-dev
 ```
 
 You then need to load the plugin by either running this shell command:
