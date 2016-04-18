@@ -19,4 +19,13 @@ class HashidStrategyTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(1, $this->strategy->elucidate('k8'));
     }
+
+    /**
+     * @expectedException Exception
+     * @expectedExceptionMessage Missing salt for Hashid strategy
+     */
+    public function testSaltException()
+    {
+        new HashidStrategy();
+    }
 }

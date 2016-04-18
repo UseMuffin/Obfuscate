@@ -1,6 +1,7 @@
 <?php
 namespace Muffin\Obfuscate\Model\Behavior\Strategy;
 
+use Cake\Core\Configure;
 use Hashids\Hashids;
 
 /**
@@ -28,7 +29,10 @@ class HashidStrategy implements StrategyInterface
     public function __construct($salt = null)
     {
         if ($salt === null) {
-            $salt = Configure::read('Security.salt');
+            $salt = Configure::read('Obfuscate.salt');
+        }
+        if (empty($salt)) {
+            throw new \Exception('Missing salt for Hashid strategy');
         }
         $this->_salt = $salt;
         $this->_hashid = new Hashids($salt);
