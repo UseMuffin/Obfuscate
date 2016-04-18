@@ -70,6 +70,10 @@ and specifying which strategy you want to use as shown in the following examples
 use Muffin\Obfuscate\Model\Behavior\Strategy\HashIdStrategy;
 
 $this->addBehavior('Muffin/Obfuscate.Obfuscate', [
+    // Strategy constructor parameter:
+    // $salt - Random alpha numeric string. You can also set "Obfuscate.salt"
+    // config instead of passing salt to construction.
+    // DO NOT USE same salt as set for "Security.salt" config.
     'strategy' => new HashIdStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B')
 ]);
 ```
@@ -78,6 +82,11 @@ $this->addBehavior('Muffin/Obfuscate.Obfuscate', [
 use Muffin\Obfuscate\Model\Behavior\Strategy\OptimusStrategy;
 
 $this->addBehavior('Muffin/Obfuscate.Obfuscate', [
+    // Strategy constructor parameters:
+    // $prime - Large prime number lower than 2147483647
+    // $inverse - The inverse prime so that (PRIME * INVERSE) & MAXID == 1
+    // $random - A large random integer lower than 2147483647
+    // You can use vendor/bin/optimus spark to generate these set of numbers.
     'strategy' => new OptimusStrategy(2123809381, 1885413229, 146808189)
 ]);
 ```
@@ -86,6 +95,8 @@ $this->addBehavior('Muffin/Obfuscate.Obfuscate', [
 use Muffin\Obfuscate\Model\Behavior\Strategy\TinyStrategy;
 
 $this->addBehavior('Muffin/Obfuscate.Obfuscate', [
+    // Strategy constructor parameters:
+    // $set - Random alpha-numeric set where each character must only be used exactly once
     'strategy' => new TinyStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B')
 ]);
 ```
