@@ -20,6 +20,20 @@ class HashidStrategyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $this->strategy->elucidate('k8'));
     }
 
+    public function testMinLength()
+    {
+        $this->strategy = new HashidStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B', 10);
+
+        $this->assertEquals('qxPAk8pnOV', $this->strategy->obfuscate(1));
+    }
+
+    public function testCustomAlphabet()
+    {
+        $this->strategy = new HashidStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B', 0, 'abcdefghijklmnopqrstuvwxyz');
+
+        $this->assertEquals('vg', $this->strategy->obfuscate(1));
+    }
+
     /**
      * @expectedException Exception
      * @expectedExceptionMessage Missing salt for Hashid strategy

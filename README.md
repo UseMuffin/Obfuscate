@@ -72,9 +72,11 @@ use Muffin\Obfuscate\Model\Behavior\Strategy\HashIdStrategy;
 $this->addBehavior('Muffin/Obfuscate.Obfuscate', [
     // Strategy constructor parameter:
     // $salt - Random alpha numeric string. You can also set "Obfuscate.salt"
+    // $minLength (optional) - The minimum hash length. Default: 0
+    // $alphabet (optional) - Custom alphabet to generate hash from. Default: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
     // config instead of passing salt to construction.
     // DO NOT USE same salt as set for "Security.salt" config.
-    'strategy' => new HashIdStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B')
+    'strategy' => new HashIdStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B', 10, 'abcdefghijklmnopqrstuvwxyz')
 ]);
 ```
 

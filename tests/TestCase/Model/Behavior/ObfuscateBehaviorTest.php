@@ -53,7 +53,6 @@ class ObfuscateBehaviorTest extends TestCase
             'through' => TableRegistry::get('Muffin/Obfuscate.ArticlesTags', ['table' => 'obfuscate_articles_tags'])
         ]);
 
-
         $this->Obfuscate = $this->Articles->behaviors()->Obfuscate;
     }
 
