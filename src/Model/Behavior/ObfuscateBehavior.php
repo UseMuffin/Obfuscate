@@ -138,9 +138,11 @@ class ObfuscateBehavior extends Behavior
             return $results->map(function ($row) {
                 $pk = $this->_table->primaryKey();
                 $row[$pk] = $this->obfuscate($row[$pk]);
+
                 return $row;
             });
         });
+
         return $query;
     }
 

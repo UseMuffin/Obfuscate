@@ -22,11 +22,28 @@ class HashidStrategy implements StrategyInterface
     protected $_salt;
 
     /**
+     * The minimum hash length.
+     *
+     * @var int
+     */
+    protected $_minLength;
+
+    /**
+     * Custom alphabet to use.
+     *
+     * @var string
+     */
+    protected $_alphabet;
+
+    /**
      * Constructor.
      *
      * @param string $salt Random alpha-numeric set.
+     * @param int $minLength The minimum hash length.
+     * @param string $alphabet Custom alphabet to use.
+     * @throws \Exception
      */
-    public function __construct($salt = null)
+    public function __construct($salt = null, $minLength = 0, $alphabet = null)
     {
         if ($salt === null) {
             $salt = Configure::read('Obfuscate.salt');
@@ -35,7 +52,14 @@ class HashidStrategy implements StrategyInterface
             throw new \Exception('Missing salt for Hashid strategy');
         }
         $this->_salt = $salt;
-        $this->_hashid = new Hashids($salt);
+        $this->_minLength = $minLength;
+        $this->_alphabet = $alphabet;
+
+        if ($alphabet === null) {
+            $this->_hashid = new Hashids($salt, $minLength);
+        } else {
+            $this->_hashid = new Hashids($salt, $minLength, $alphabet);
+        }
     }
 
     /**

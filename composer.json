@@ -34,7 +34,7 @@
     },
     "require-dev": {
         "cakephp/cakephp": "~3.0",
-        "phpunit/phpunit": "4.1.*",
+        "phpunit/phpunit": "<6.0",
         "zackkitzmiller/tiny": "1.2.0",
         "jenssegers/optimus": "0.2.0",
         "hashids/hashids": "1.0.5"
