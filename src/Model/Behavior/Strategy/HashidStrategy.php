@@ -55,7 +55,7 @@ class HashidStrategy implements StrategyInterface
         $this->_minLength = $minLength;
         $this->_alphabet = $alphabet;
 
-        if (!is_string($alphabet)) {
+        if ($alphabet === null) {
             $this->_hashid = new Hashids($salt, $minLength);
         } else {
             $this->_hashid = new Hashids($salt, $minLength, $alphabet);
