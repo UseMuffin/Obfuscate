@@ -35,9 +35,9 @@ Lastly, composer install (any combination of) the obfuscation libraries you
 want to use in your application:
 
 ```
-composer install hashids/hashids
-composer install jenssegers/optimus
-composer install zackkitzmiller/tiny
+composer require hashids/hashids
+composer require jenssegers/optimus
+composer require zackkitzmiller/tiny
 ```
 
 ## Built-in obfuscation strategies
