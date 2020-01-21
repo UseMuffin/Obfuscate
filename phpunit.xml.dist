@@ -6,6 +6,7 @@
     convertErrorsToExceptions="false"
     convertNoticesToExceptions="false"
     convertWarningsToExceptions="false"
+    convertDeprecationsToExceptions="false"
     >
 
     <testsuites>
