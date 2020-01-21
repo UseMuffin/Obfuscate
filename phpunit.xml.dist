@@ -4,6 +4,8 @@
     colors="true"
     stopOnFailure="false"
     convertErrorsToExceptions="false"
+    convertNoticesToExceptions="false"
+    convertWarningsToExceptions="false"
     >
 
     <testsuites>
