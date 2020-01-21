@@ -46,7 +46,7 @@ class HashidStrategy implements StrategyInterface
     /**
      * {@inheritdoc}
      *
-     * @param string|int $str String to obfuscate.
+     * @param int|string $str String to obfuscate.
      * @return string
      */
     public function obfuscate($str)

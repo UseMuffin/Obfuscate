@@ -40,8 +40,8 @@ class TinyStrategy implements StrategyInterface
     /**
      * {@inheritdoc}
      *
-     * @param string $str String to obfuscate.
-     * @return string|int
+     * @param int|string $str String to obfuscate.
+     * @return string
      */
     public function obfuscate($str)
     {

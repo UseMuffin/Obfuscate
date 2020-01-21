@@ -1,2 +1,6 @@
 parameters:
-    ignoreErrors: []
+    ignoreErrors:
+        -
+            message: '#^Property Muffin\\Obfuscate\\Test\\TestCase\\Model\\Behavior\\ObfuscateBehaviorTest::\$Obfuscate \(Muffin\\Obfuscate\\Model\\Behavior\\ObfuscateBehavior\) does not accept Cake\\ORM\\Behavior\.$#'
+            count: 1
+            path: tests/TestCase/Model/Behavior/ObfuscateBehaviorTest.php
