@@ -151,8 +151,4 @@ class ObfuscateBehaviorTest extends TestCase
     {
         $this->assertEquals(1, $this->Articles->elucidate('S'));
     }
-
-    public function testStrategy(): void
-    {
-    }
 }
