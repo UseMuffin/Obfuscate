@@ -1,14 +1,17 @@
 <?php
+declare(strict_types=1);
+
 namespace Muffin\Obfuscate\Model\Behavior;
 
 use ArrayObject;
 use Cake\Core\Exception\Exception;
+use Cake\Database\Expression\Comparison;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
-use Cake\ORM\ResultSet;
 use Muffin\Obfuscate\Model\Behavior\Strategy\StrategyInterface;
+use RuntimeException;
 
 /**
  * Class ObfuscateBehavior
@@ -16,7 +19,6 @@ use Muffin\Obfuscate\Model\Behavior\Strategy\StrategyInterface;
  */
 class ObfuscateBehavior extends Behavior
 {
-
     /**
      * {@inheritdoc}
      */
@@ -38,7 +40,7 @@ class ObfuscateBehavior extends Behavior
      * @param array $config Behavior's configuration.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->verifyConfig();
     }
@@ -48,10 +50,10 @@ class ObfuscateBehavior extends Behavior
      *
      * @return void
      */
-    public function verifyConfig()
+    public function verifyConfig(): void
     {
         $strategy = $this->getConfig('strategy');
-        if (!$strategy) {
+        if (empty($strategy)) {
             throw new Exception('Missing required obfuscation strategy.');
         }
 
@@ -67,14 +69,17 @@ class ObfuscateBehavior extends Behavior
     /**
      * Callback to obfuscate the record(s)' primary key returned after a save operation.
      *
-     * @param \Cake\ORM\Behavior\Event $event Event.
-     * @param \Cake\ORM\Behavior\EntityInterface $entity Entity.
+     * @param \Cake\Event\Event $event Event.
+     * @param \Cake\Datasource\EntityInterface $entity Entity.
      * @param \ArrayObject $options Options.
      * @return void
      */
     public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
         $pk = $this->_table->getPrimaryKey();
+        if (is_array($pk)) {
+            throw new RuntimeException('Composite primary keys are not supported.');
+        }
         $entity->set($pk, $this->obfuscate($entity->{$pk}));
         $entity->setDirty($pk, false);
     }
@@ -82,7 +87,7 @@ class ObfuscateBehavior extends Behavior
     /**
      * Callback to set the `obfuscated` finder on all associations.
      *
-     * @param \Cake\ORM\Behavior\Event $event Event.
+     * @param \Cake\Event\Event $event Event.
      * @param \Cake\ORM\Query $query Query.
      * @param \ArrayObject $options Options.
      * @param bool $primary True if this is the primary table.
@@ -96,8 +101,12 @@ class ObfuscateBehavior extends Behavior
 
         $query->traverseExpressions(function ($expression) {
             $pk = $this->_table->getPrimaryKey();
+            if (is_array($pk)) {
+                throw new RuntimeException('Composite primary keys are not supported.');
+            }
+
             if (
-                method_exists($expression, 'getField')
+                $expression instanceof Comparison
                 && in_array($expression->getField(), [$pk, $this->_table->aliasField($pk)])
             ) {
                 $expression->setValue($this->elucidate($expression->getValue()));
@@ -173,7 +182,7 @@ class ObfuscateBehavior extends Behavior
     /**
      * Get the configured strategy.
      *
-     * @return \Muffin\Obfuscate\Model\Behavior\ObfuscateStrategy\StrategyInterface
+     * @return \Muffin\Obfuscate\Model\Behavior\Strategy\StrategyInterface
      */
     public function strategy()
     {

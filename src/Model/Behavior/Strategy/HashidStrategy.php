@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Muffin\Obfuscate\Model\Behavior\Strategy;
 
 use Cake\Core\Configure;
@@ -10,30 +12,12 @@ use Hashids\Hashids;
  */
 class HashidStrategy implements StrategyInterface
 {
-
+    /**
+     * Obfuscator.
+     *
+     * @var \Hashids\Hashids
+     */
     protected $_hashid;
-
-    /**
-     * Random alpha-numeric set where each character must only be
-     * used exactly once.
-     *
-     * @var string
-     */
-    protected $_salt;
-
-    /**
-     * The minimum hash length.
-     *
-     * @var int
-     */
-    protected $_minLength;
-
-    /**
-     * Custom alphabet to use.
-     *
-     * @var string
-     */
-    protected $_alphabet;
 
     /**
      * Constructor.
@@ -51,9 +35,6 @@ class HashidStrategy implements StrategyInterface
         if (empty($salt)) {
             throw new \Exception('Missing salt for Hashid strategy');
         }
-        $this->_salt = $salt;
-        $this->_minLength = $minLength;
-        $this->_alphabet = $alphabet;
 
         if ($alphabet === null) {
             $this->_hashid = new Hashids($salt, $minLength);

@@ -1,10 +1,18 @@
 <?php
+declare(strict_types=1);
+
 namespace Muffin\Obfuscate\Model\Behavior\Strategy;
 
+use InvalidArgumentException;
 use Jenssegers\Optimus\Optimus;
 
 class OptimusStrategy implements StrategyInterface
 {
+    /**
+     * Obfuscator.
+     *
+     * @var \Jenssegers\Optimus\Optimus
+     */
     protected $_optimus;
 
     /**
@@ -23,21 +31,29 @@ class OptimusStrategy implements StrategyInterface
      * {@inheritdoc}
      *
      * @param string $str String to obfuscate.
-     * @return int
+     * @return string
      */
     public function obfuscate($str)
     {
-        return $this->_optimus->encode($str);
+        if (!is_numeric($str)) {
+            throw new InvalidArgumentException('Argument should be an integer');
+        }
+
+        return (string)$this->_optimus->encode((int)$str);
     }
 
     /**
      * {@inheritdoc}
      *
      * @param string $str String to elucidate.
-     * @return int
+     * @return string
      */
     public function elucidate($str)
     {
-        return $this->_optimus->decode($str);
+        if (!is_numeric($str)) {
+            throw new InvalidArgumentException('Argument should be an integer');
+        }
+
+        return (string)$this->_optimus->decode((int)$str);
     }
 }

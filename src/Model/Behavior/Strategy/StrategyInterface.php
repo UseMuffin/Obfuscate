@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Muffin\Obfuscate\Model\Behavior\Strategy;
 
 /**
@@ -7,9 +9,8 @@ namespace Muffin\Obfuscate\Model\Behavior\Strategy;
  */
 interface StrategyInterface
 {
-
     /**
-     * Obfuscates a given string.
+     * Obfuscates a given integer.
      *
      * @param string $str String to obfuscate.
      * @return string

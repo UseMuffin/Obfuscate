@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Muffin\Obfuscate\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
@@ -31,7 +33,7 @@ class ArticlesFixture extends TestFixture
         ['author_id' => 2, 'title' => 'Second Article'],
     ];
 
-    public function init()
+    public function init(): void
     {
         $created = $modified = date('Y-m-d H:i:s');
         array_walk($this->records, function (&$record) use ($created, $modified) {

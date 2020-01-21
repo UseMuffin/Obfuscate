@@ -1,46 +1,47 @@
 <?php
+declare(strict_types=1);
+
 namespace Muffin\Obfuscate\Test\TestCase\Model\Behavior\Strategy;
 
 use Cake\TestSuite\TestCase;
+use Exception;
 use Muffin\Obfuscate\Model\Behavior\Strategy\HashidStrategy;
 
 class HashidStrategyTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->strategy = new HashidStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B');
     }
 
-    public function testObfuscate()
+    public function testObfuscate(): void
     {
         $result = $this->assertEquals('k8', $this->strategy->obfuscate(1));
     }
 
-    public function testElucidate()
+    public function testElucidate(): void
     {
         $this->assertEquals(1, $this->strategy->elucidate('k8'));
     }
 
-    public function testMinLength()
+    public function testMinLength(): void
     {
         $this->strategy = new HashidStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B', 10);
 
         $this->assertEquals('qxPAk8pnOV', $this->strategy->obfuscate(1));
     }
 
-    public function testCustomAlphabet()
+    public function testCustomAlphabet(): void
     {
         $this->strategy = new HashidStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B', 0, 'abcdefghijklmnopqrstuvwxyz');
 
         $this->assertEquals('vg', $this->strategy->obfuscate(1));
     }
 
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage Missing salt for Hashid strategy
-     */
-    public function testSaltException()
+    public function testSaltException(): void
     {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Missing salt for Hashid strategy');
         new HashidStrategy();
     }
 }

@@ -1,0 +1,11 @@
+linters:
+  phpcs:
+    standard: CakePHP
+    extensions: 'php,ctp'
+    fixer: true
+files:
+  ignore:
+    - 'vendor/*'
+fixers:
+  enable: true
+  workflow: commit
