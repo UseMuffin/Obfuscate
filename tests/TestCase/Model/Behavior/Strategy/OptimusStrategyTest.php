@@ -5,6 +5,7 @@ namespace Muffin\Obfuscate\Test\TestCase\Model\Behavior\Strategy;
 
 use Cake\TestSuite\TestCase;
 use Muffin\Obfuscate\Model\Behavior\Strategy\OptimusStrategy;
+use PHPUnit\Framework\TestCase;
 
 class OptimusStrategyTest extends TestCase
 {
