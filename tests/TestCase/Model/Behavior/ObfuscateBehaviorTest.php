@@ -68,7 +68,7 @@ class ObfuscateBehaviorTest extends TestCase
     public function testVerifyConfig(): void
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Missing salt for Hashid strategy');
+        $this->expectExceptionMessage('Missing required obfuscation strategy');
 
         $this->Articles->removeBehavior('Obfuscate');
         $this->Articles->addBehavior('Muffin/Obfuscate.Obfuscate');
