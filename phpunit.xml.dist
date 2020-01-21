@@ -3,9 +3,6 @@
     bootstrap="./tests/bootstrap.php"
     colors="true"
     stopOnFailure="false"
-    convertErrorsToExceptions="false"
-    convertNoticesToExceptions="false"
-    convertWarningsToExceptions="false"
     convertDeprecationsToExceptions="false"
     >
 
