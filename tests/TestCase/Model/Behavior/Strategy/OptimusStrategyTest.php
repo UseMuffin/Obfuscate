@@ -9,6 +9,11 @@ use PHPUnit\Framework\TestCase;
 
 class OptimusStrategyTest extends TestCase
 {
+    /**
+     * @var \Muffin\Obfuscate\Model\Behavior\Strategy\OptimusStrategy;
+     */
+    public $strategy;
+
     public function setUp(): void
     {
         $this->strategy = new OptimusStrategy(2123809381, 1885413229, 146808189);
@@ -21,6 +26,6 @@ class OptimusStrategyTest extends TestCase
 
     public function testElucidate(): void
     {
-        $this->assertEquals(1, $this->strategy->elucidate(1985404696));
+        $this->assertEquals(1, $this->strategy->elucidate('1985404696'));
     }
 }

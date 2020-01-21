@@ -15,8 +15,20 @@ class ObfuscateBehaviorTest extends TestCase
      * @var \Cake\ORM\Table;
      */
     public $Articles;
+
+    /**
+     * @var \Cake\ORM\Table;
+     */
     public $Authors;
+
+    /**
+     * @var \Cake\ORM\Table;
+     */
     public $Comments;
+
+    /**
+     * @var \Cake\ORM\Table;
+     */
     public $Tags;
 
     /**
@@ -56,7 +68,8 @@ class ObfuscateBehaviorTest extends TestCase
             'through' => TableRegistry::get('Muffin/Obfuscate.ArticlesTags', ['table' => 'obfuscate_articles_tags']),
         ]);
 
-        $this->Obfuscate = $this->Articles->behaviors()->Obfuscate;
+        /** @var \Muffin\Obfuscate\Model\Behavior\ObfuscateBehavior $behavior */
+        $this->Obfuscate = $this->Articles->getBehavior('Obfuscate');
     }
 
     public function tearDown(): void
@@ -144,11 +157,11 @@ class ObfuscateBehaviorTest extends TestCase
 
     public function testObfuscate(): void
     {
-        $this->assertEquals('S', $this->Articles->obfuscate(1));
+        $this->assertEquals('S', $this->Articles->behaviors()->call('obfuscate', [1]));
     }
 
     public function testElucidate(): void
     {
-        $this->assertEquals(1, $this->Articles->elucidate('S'));
+        $this->assertEquals(1, $this->Articles->behaviors()->call('elucidate', ['S']));
     }
 }

@@ -10,6 +10,11 @@ use PHPUnit\Framework\TestCase;
 
 class HashidStrategyTest extends TestCase
 {
+    /**
+     * @var \Muffin\Obfuscate\Model\Behavior\Strategy\HashidStrategy;
+     */
+    public $strategy;
+
     public function setUp(): void
     {
         $this->strategy = new HashidStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B');
@@ -17,7 +22,7 @@ class HashidStrategyTest extends TestCase
 
     public function testObfuscate(): void
     {
-        $result = $this->assertEquals('k8', $this->strategy->obfuscate(1));
+        $this->assertEquals('k8', $this->strategy->obfuscate(1));
     }
 
     public function testElucidate(): void

@@ -12,7 +12,7 @@ interface StrategyInterface
     /**
      * Obfuscates a given integer.
      *
-     * @param string $str String to obfuscate.
+     * @param string|int $str String to obfuscate.
      * @return string
      */
     public function obfuscate($str);

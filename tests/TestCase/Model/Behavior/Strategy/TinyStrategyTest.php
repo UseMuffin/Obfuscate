@@ -9,6 +9,11 @@ use Muffin\Obfuscate\Model\Behavior\Strategy\TinyStrategy;
 
 class TinyStrategyTest extends TestCase
 {
+    /**
+     * @var \Muffin\Obfuscate\Model\Behavior\Strategy\TinyStrategy;
+     */
+    public $strategy;
+
     public function setUp(): void
     {
         $this->strategy = new TinyStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B');
