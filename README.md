@@ -5,30 +5,20 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/muffin/obfuscate.svg?style=flat-square)](https://packagist.org/packages/muffin/obfuscate)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 
-Primary key obfuscation for CakePHP 3 using HashIds, Optimus, Tiny and/or custom obfuscation strategies.
-
-## Requirements
-
-- CakePHP 3.0+
+Primary key obfuscation for CakePHP using HashIds, Optimus, Tiny and/or custom obfuscation strategies.
 
 ## Installation
 
 Install the plugin using [Composer](https://getcomposer.org):
 
 ```
-composer require muffin/obfuscate:1.0.x-dev
+composer require muffin/obfuscate
 ```
 
-You then need to load the plugin by either running this shell command:
+Load the plugin by either running this console command:
 
 ```
 bin/cake plugin load Muffin/Obfuscate
-```
-
-or by manually adding the following line to ``config/bootstrap.php``:
-
-```php
-Plugin::load('Muffin/Obfuscate');
 ```
 
 Lastly, composer install (any combination of) the obfuscation libraries you

@@ -1,6 +1,6 @@
 {
     "name": "muffin/obfuscate",
-    "description": "CakePHP 3 support for ID obfuscation",
+    "description": "CakePHP support for ID obfuscation",
     "type": "cakephp-plugin",
     "keywords": [
         "cakephp",
@@ -31,13 +31,14 @@
         "source": "https://github.com/usemuffin/obfuscate"
     },
     "require": {
+        "cakephp/orm": "^3.5"
     },
     "require-dev": {
-        "cakephp/cakephp": "~3.0",
-        "phpunit/phpunit": "<6.0",
-        "zackkitzmiller/tiny": "1.2.0",
-        "jenssegers/optimus": "0.2.0",
-        "hashids/hashids": "1.0.5"
+        "cakephp/cakephp": "^3.5",
+        "phpunit/phpunit": "^5.7.14|^6.0",
+        "zackkitzmiller/tiny": "^1.2",
+        "jenssegers/optimus": "^0.2",
+        "hashids/hashids": "^1.0.5"
     },
     "suggest": {
         "zackkitzmiller/tiny": "A reversible base62 ID obfuscater",
@@ -52,11 +53,6 @@
     "autoload-dev": {
         "psr-4": {
             "Muffin\\Obfuscate\\Test\\": "tests"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.x-dev"
         }
     }
 }

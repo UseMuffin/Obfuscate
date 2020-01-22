@@ -1,9 +1,10 @@
 <?php
 namespace Muffin\Obfuscate\Test\TestCase\Model\Behavior\Strategy;
 
+use Cake\TestSuite\TestCase;
 use Muffin\Obfuscate\Model\Behavior\Strategy\HashidStrategy;
 
-class HashidStrategyTest extends \PHPUnit_Framework_TestCase
+class HashidStrategyTest extends TestCase
 {
     public function setUp()
     {

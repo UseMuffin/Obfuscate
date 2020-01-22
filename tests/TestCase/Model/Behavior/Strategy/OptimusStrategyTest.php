@@ -1,9 +1,10 @@
 <?php
 namespace Muffin\Obfuscate\Test\TestCase\Model\Behavior\Strategy;
 
+use Cake\TestSuite\TestCase;
 use Muffin\Obfuscate\Model\Behavior\Strategy\OptimusStrategy;
 
-class OptimusStrategyTest extends \PHPUnit_Framework_TestCase
+class OptimusStrategyTest extends TestCase
 {
     public function setUp()
     {

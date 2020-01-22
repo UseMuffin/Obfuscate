@@ -76,7 +76,7 @@ class ObfuscateBehaviorTest extends TestCase
         $entity = new Entity(['id' => 5, 'title' => 'foo']);
         $this->Articles->save($entity);
         $this->assertEquals('E', $entity['id']);
-        $this->assertFalse($entity->dirty('id'));
+        $this->assertFalse($entity->isDirty('id'));
     }
 
     /**
@@ -86,9 +86,9 @@ class ObfuscateBehaviorTest extends TestCase
     public function testFindObfuscate()
     {
         $result = $this->Articles->find('obfuscate')->contain([
-            $this->Authors->alias(),
-            $this->Comments->alias(),
-            $this->Tags->alias(),
+            $this->Authors->getAlias(),
+            $this->Comments->getAlias(),
+            $this->Tags->getAlias(),
         ])->first();
 
         $this->assertEquals('S', $result['author']['id']);
@@ -104,9 +104,9 @@ class ObfuscateBehaviorTest extends TestCase
     public function testFindWithoutObfuscate()
     {
         $result = $this->Articles->find()->contain([
-            $this->Authors->alias(),
-            $this->Comments->alias(),
-            $this->Tags->alias(),
+            $this->Authors->getAlias(),
+            $this->Comments->getAlias(),
+            $this->Tags->getAlias(),
         ])->first();
 
         $this->assertEquals('1', $result['author']['id']);
@@ -147,9 +147,5 @@ class ObfuscateBehaviorTest extends TestCase
     public function testElucidate()
     {
         $this->assertEquals(1, $this->Articles->elucidate('S'));
-    }
-
-    public function testStrategy()
-    {
     }
 }
