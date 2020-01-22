@@ -1,9 +1,10 @@
 <?php
 namespace Muffin\Obfuscate\Test\TestCase\Model\Behavior\Strategy;
 
+use Cake\TestSuite\TestCase;
 use Muffin\Obfuscate\Model\Behavior\Strategy\TinyStrategy;
 
-class TinyStrategyTest extends \PHPUnit_Framework_TestCase
+class TinyStrategyTest extends TestCase
 {
     public function setUp()
     {

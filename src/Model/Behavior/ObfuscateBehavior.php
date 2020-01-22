@@ -24,7 +24,7 @@ class ObfuscateBehavior extends Behavior
         'strategy' => null,
         'implementedFinders' => [
             'obfuscated' => 'findObfuscated',
-            'obfuscate' => 'findObfuscate'
+            'obfuscate' => 'findObfuscate',
         ],
         'implementedMethods' => [
             'obfuscate' => 'obfuscate',
@@ -50,7 +50,8 @@ class ObfuscateBehavior extends Behavior
      */
     public function verifyConfig()
     {
-        if (!$strategy = $this->config('strategy')) {
+        $strategy = $this->getConfig('strategy');
+        if (!$strategy) {
             throw new Exception('Missing required obfuscation strategy.');
         }
 
@@ -73,9 +74,9 @@ class ObfuscateBehavior extends Behavior
      */
     public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
-        $pk = $this->_table->primaryKey();
+        $pk = $this->_table->getPrimaryKey();
         $entity->set($pk, $this->obfuscate($entity->{$pk}));
-        $entity->dirty($pk, false);
+        $entity->setDirty($pk, false);
     }
 
     /**
@@ -94,8 +95,9 @@ class ObfuscateBehavior extends Behavior
         }
 
         $query->traverseExpressions(function ($expression) {
-            $pk = $this->_table->primaryKey();
-            if (method_exists($expression, 'getField')
+            $pk = $this->_table->getPrimaryKey();
+            if (
+                method_exists($expression, 'getField')
                 && in_array($expression->getField(), [$pk, $this->_table->aliasField($pk)])
             ) {
                 $expression->setValue($this->elucidate($expression->getValue()));
@@ -105,8 +107,8 @@ class ObfuscateBehavior extends Behavior
         });
 
         foreach ($this->_table->associations() as $association) {
-            if ($association->target()->hasBehavior('Obfuscate') && 'all' === $association->finder()) {
-                $association->finder('obfuscate');
+            if ($association->getTarget()->hasBehavior('Obfuscate') && $association->getFinder() === 'all') {
+                $association->setFinder('obfuscate');
             }
         }
     }
@@ -136,7 +138,7 @@ class ObfuscateBehavior extends Behavior
 
         $query->formatResults(function ($results) {
             return $results->map(function ($row) {
-                $pk = $this->_table->primaryKey();
+                $pk = $this->_table->getPrimaryKey();
                 $row[$pk] = $this->obfuscate($row[$pk]);
 
                 return $row;
@@ -175,6 +177,6 @@ class ObfuscateBehavior extends Behavior
      */
     public function strategy()
     {
-        return $this->config('strategy');
+        return $this->getConfig('strategy');
     }
 }
