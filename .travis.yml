@@ -40,8 +40,8 @@ before_script:
   - if [[ $PHPCS == '1' ]]; then composer require cakephp/cakephp-codesniffer:^3.0; fi
 
 script:
-  - if [[ $DEFAULT == 1 && $TRAVIS_PHP_VERSION == 7.1 ]]; then vendor/bin/phpunit --coverage-clover=clover.xml; fi
-  - if [[ $DEFAULT == 1 && $TRAVIS_PHP_VERSION != 7.1 ]]; then vendor/bin/phpunit; fi
+  - if [[ $DEFAULT == 1 && $TRAVIS_PHP_VERSION == 7.2 ]]; then vendor/bin/phpunit --coverage-clover=clover.xml; fi
+  - if [[ $DEFAULT == 1 && $TRAVIS_PHP_VERSION != 7.2 ]]; then vendor/bin/phpunit; fi
 
   - if [[ $PHPCS == 1 ]]; then vendor/bin/phpcs -p --extensions=php --standard=vendor/cakephp/cakephp-codesniffer/CakePHP ./src ./tests; fi
 
