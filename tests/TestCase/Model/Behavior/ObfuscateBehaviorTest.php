@@ -50,7 +50,7 @@ class ObfuscateBehaviorTest extends TestCase
         $this->Articles->belongsToMany('Muffin/Obfuscate.Tags', [
             'foreignKey' => 'obfuscate_article_id',
             'joinTable' => 'obfuscate_articles_tags',
-            'through' => TableRegistry::get('Muffin/Obfuscate.ArticlesTags', ['table' => 'obfuscate_articles_tags'])
+            'through' => TableRegistry::get('Muffin/Obfuscate.ArticlesTags', ['table' => 'obfuscate_articles_tags']),
         ]);
 
         $this->Obfuscate = $this->Articles->behaviors()->Obfuscate;

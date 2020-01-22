@@ -24,7 +24,7 @@ class ObfuscateBehavior extends Behavior
         'strategy' => null,
         'implementedFinders' => [
             'obfuscated' => 'findObfuscated',
-            'obfuscate' => 'findObfuscate'
+            'obfuscate' => 'findObfuscate',
         ],
         'implementedMethods' => [
             'obfuscate' => 'obfuscate',
@@ -96,7 +96,8 @@ class ObfuscateBehavior extends Behavior
 
         $query->traverseExpressions(function ($expression) {
             $pk = $this->_table->getPrimaryKey();
-            if (method_exists($expression, 'getField')
+            if (
+                method_exists($expression, 'getField')
                 && in_array($expression->getField(), [$pk, $this->_table->aliasField($pk)])
             ) {
                 $expression->setValue($this->elucidate($expression->getValue()));

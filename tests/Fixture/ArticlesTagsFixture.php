@@ -16,7 +16,7 @@ class ArticlesTagsFixture extends TestFixture
         'id' => ['type' => 'integer'],
         'obfuscate_article_id' => ['type' => 'integer'],
         'tag_id' => ['type' => 'integer'],
-        '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
+        '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
     ];
 
     /**
