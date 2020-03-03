@@ -7,7 +7,7 @@ use ArrayObject;
 use Cake\Core\Exception\Exception;
 use Cake\Database\Expression\Comparison;
 use Cake\Datasource\EntityInterface;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
 use Muffin\Obfuscate\Model\Behavior\Strategy\StrategyInterface;
@@ -69,12 +69,12 @@ class ObfuscateBehavior extends Behavior
     /**
      * Callback to obfuscate the record(s)' primary key returned after a save operation.
      *
-     * @param \Cake\Event\Event $event Event.
+     * @param \Cake\Event\EventInterface $event EventInterface.
      * @param \Cake\Datasource\EntityInterface $entity Entity.
      * @param \ArrayObject $options Options.
      * @return void
      */
-    public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
+    public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
         $pk = $this->_table->getPrimaryKey();
         if (is_array($pk)) {
@@ -87,13 +87,13 @@ class ObfuscateBehavior extends Behavior
     /**
      * Callback to set the `obfuscated` finder on all associations.
      *
-     * @param \Cake\Event\Event $event Event.
+     * @param \Cake\Event\EventInterface $event EventInterface.
      * @param \Cake\ORM\Query $query Query.
      * @param \ArrayObject $options Options.
      * @param bool $primary True if this is the primary table.
      * @return void
      */
-    public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary)
+    public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, $primary)
     {
         if (empty($options['obfuscate']) || !$primary) {
             return;

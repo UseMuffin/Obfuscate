@@ -31,14 +31,14 @@
         "source": "https://github.com/usemuffin/obfuscate"
     },
     "require": {
-        "cakephp/orm": "~4.0"
+        "cakephp/orm": "^4.0"
     },
     "require-dev": {
         "cakephp/cakephp": "^4.0",
         "cakephp/cakephp-codesniffer": "^4.0",
         "phpstan/phpstan": "^0.12",
         "phpunit/phpunit": "~8.5.0",
-        "psalm/phar": "^3.7",
+        "psalm/phar": "^3.9",
         "zackkitzmiller/tiny": "^1.2",
         "jenssegers/optimus": "^0.2",
         "hashids/hashids": "^1.0.5"
