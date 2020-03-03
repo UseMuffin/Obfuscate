@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Muffin\Obfuscate\Test\TestCase\Model\Behavior\Strategy;
 
-use Cake\TestSuite\TestCase;
 use Muffin\Obfuscate\Model\Behavior\Strategy\TinyStrategy;
 use PHPUnit\Framework\TestCase;
 

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Muffin\Obfuscate\Test\TestCase\Model\Behavior\Strategy;
 
-use Cake\TestSuite\TestCase;
 use Exception;
 use Muffin\Obfuscate\Model\Behavior\Strategy\HashidStrategy;
 use PHPUnit\Framework\TestCase;
