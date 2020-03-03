@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Muffin\Obfuscate\Model\Behavior\Strategy;
 
 use ZackKitzmiller\Tiny;
@@ -9,7 +11,6 @@ use ZackKitzmiller\Tiny;
  */
 class TinyStrategy implements StrategyInterface
 {
-
     /**
      * Random alpha-numeric set where each character must only be
      * used exactly once.
@@ -39,12 +40,12 @@ class TinyStrategy implements StrategyInterface
     /**
      * {@inheritdoc}
      *
-     * @param string $str String to obfuscate.
+     * @param int|string $str String to obfuscate.
      * @return string
      */
     public function obfuscate($str)
     {
-        return $this->_tiny->to($str);
+        return $this->_tiny->to((string)$str);
     }
 
     /**

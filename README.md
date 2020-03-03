@@ -21,6 +21,12 @@ Load the plugin by either running this console command:
 bin/cake plugin load Muffin/Obfuscate
 ```
 
+or by manually adding the following line to `src/Application.php`:
+
+```php
+$this->addPlugin('Muffin/Obfuscate');
+```
+
 Lastly, composer install (any combination of) the obfuscation libraries you
 want to use in your application:
 

@@ -1,22 +1,29 @@
 <?php
+declare(strict_types=1);
+
 namespace Muffin\Obfuscate\Test\TestCase\Model\Behavior\Strategy;
 
-use Cake\TestSuite\TestCase;
 use Muffin\Obfuscate\Model\Behavior\Strategy\TinyStrategy;
+use PHPUnit\Framework\TestCase;
 
 class TinyStrategyTest extends TestCase
 {
-    public function setUp()
+    /**
+     * @var \Muffin\Obfuscate\Model\Behavior\Strategy\TinyStrategy;
+     */
+    public $strategy;
+
+    public function setUp(): void
     {
         $this->strategy = new TinyStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B');
     }
 
-    public function testObfuscate()
+    public function testObfuscate(): void
     {
         $this->assertEquals('S', $this->strategy->obfuscate(1));
     }
 
-    public function testElucidate()
+    public function testElucidate(): void
     {
         $this->assertEquals(1, $this->strategy->elucidate('S'));
     }

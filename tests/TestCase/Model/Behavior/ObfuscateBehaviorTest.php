@@ -1,6 +1,9 @@
 <?php
+declare(strict_types=1);
+
 namespace Muffin\Obfuscate\Test\TestCase\Model\Behavior;
 
+use Cake\Core\Exception\Exception;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
@@ -12,8 +15,20 @@ class ObfuscateBehaviorTest extends TestCase
      * @var \Cake\ORM\Table;
      */
     public $Articles;
+
+    /**
+     * @var \Cake\ORM\Table;
+     */
     public $Authors;
+
+    /**
+     * @var \Cake\ORM\Table;
+     */
     public $Comments;
+
+    /**
+     * @var \Cake\ORM\Table;
+     */
     public $Tags;
 
     /**
@@ -29,7 +44,7 @@ class ObfuscateBehaviorTest extends TestCase
         'plugin.Muffin/Obfuscate.ArticlesTags',
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -53,25 +68,25 @@ class ObfuscateBehaviorTest extends TestCase
             'through' => TableRegistry::get('Muffin/Obfuscate.ArticlesTags', ['table' => 'obfuscate_articles_tags']),
         ]);
 
-        $this->Obfuscate = $this->Articles->behaviors()->Obfuscate;
+        $this->Obfuscate = $this->Articles->getBehavior('Obfuscate');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         TableRegistry::clear();
     }
 
-    /**
-     * @expectedException \Cake\Core\Exception\Exception
-     */
-    public function testVerifyConfig()
+    public function testVerifyConfig(): void
     {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Missing required obfuscation strategy');
+
         $this->Articles->removeBehavior('Obfuscate');
         $this->Articles->addBehavior('Muffin/Obfuscate.Obfuscate');
     }
 
-    public function testAfterSave()
+    public function testAfterSave(): void
     {
         $entity = new Entity(['id' => 5, 'title' => 'foo']);
         $this->Articles->save($entity);
@@ -83,7 +98,7 @@ class ObfuscateBehaviorTest extends TestCase
      * Make sure primary keys in returned result set are obfuscated when using
      * the `obfuscate` custom finder.
      */
-    public function testFindObfuscate()
+    public function testFindObfuscate(): void
     {
         $result = $this->Articles->find('obfuscate')->contain([
             $this->Authors->getAlias(),
@@ -101,7 +116,7 @@ class ObfuscateBehaviorTest extends TestCase
      * Make sure primary keys in the returned result set are NOT obfuscated
      * when using default find.
      */
-    public function testFindWithoutObfuscate()
+    public function testFindWithoutObfuscate(): void
     {
         $result = $this->Articles->find()->contain([
             $this->Authors->getAlias(),
@@ -119,7 +134,7 @@ class ObfuscateBehaviorTest extends TestCase
      * Make sure we can search for records using obfuscated primary key when
      * using the `obfuscated` custom finder.
      */
-    public function testFindObfuscated()
+    public function testFindObfuscated(): void
     {
         $results = $this->Articles->find('obfuscated')
             ->where(['id' => 'S'])
@@ -131,7 +146,7 @@ class ObfuscateBehaviorTest extends TestCase
      * Make sure we can search for records using non-obfuscated primary key
      * when using default find.
      */
-    public function testFindWithoutObfuscated()
+    public function testFindWithoutObfuscated(): void
     {
         $results = $this->Articles->find()
             ->where(['id' => '1'])
@@ -139,13 +154,13 @@ class ObfuscateBehaviorTest extends TestCase
         $this->assertEquals('1', $results[0]['id']);
     }
 
-    public function testObfuscate()
+    public function testObfuscate(): void
     {
-        $this->assertEquals('S', $this->Articles->obfuscate(1));
+        $this->assertEquals('S', $this->Articles->behaviors()->call('obfuscate', [1]));
     }
 
-    public function testElucidate()
+    public function testElucidate(): void
     {
-        $this->assertEquals(1, $this->Articles->elucidate('S'));
+        $this->assertEquals(1, $this->Articles->behaviors()->call('elucidate', ['S']));
     }
 }
