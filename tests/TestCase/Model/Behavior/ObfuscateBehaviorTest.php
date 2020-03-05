@@ -5,6 +5,7 @@ use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use Muffin\Obfuscate\Model\Behavior\Strategy\TinyStrategy;
+use Muffin\Obfuscate\Model\Behavior\Strategy\UuidStrategy;
 
 class ObfuscateBehaviorTest extends TestCase
 {
@@ -36,7 +37,9 @@ class ObfuscateBehaviorTest extends TestCase
         $strategy = new TinyStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B');
 
         $this->Authors = TableRegistry::get('Muffin/Obfuscate.Authors', ['table' => 'obfuscate_authors']);
-        $this->Authors->addBehavior('Muffin/Obfuscate.Obfuscate', compact('strategy'));
+        $this->Authors->addBehavior('Muffin/Obfuscate.Obfuscate', [
+            'strategy' => new UuidStrategy($this->Authors),
+        ]);
 
         $this->Comments = TableRegistry::get('Muffin/Obfuscate.Comments', ['table' => 'obfuscate_comments']);
 
@@ -91,7 +94,7 @@ class ObfuscateBehaviorTest extends TestCase
             $this->Tags->getAlias(),
         ])->first();
 
-        $this->assertEquals('S', $result['author']['id']);
+        $this->assertEquals('f1f88079-ec15-4863-ad41-7e85cfa98f3d', $result['author']['id']);
         $this->assertEquals('S', $result['tags'][0]['id']);
         $this->assertEquals(1, $result['comments'][0]['id']);
         $this->assertEquals(2, $result['comments'][1]['id']);
@@ -123,6 +126,11 @@ class ObfuscateBehaviorTest extends TestCase
     {
         $results = $this->Articles->find('obfuscated')
             ->where(['id' => 'S'])
+            ->toArray();
+        $this->assertEquals('1', $results[0]['id']);
+
+        $results = $this->Authors->find('obfuscated')
+            ->where(['id' => 'f1f88079-ec15-4863-ad41-7e85cfa98f3d'])
             ->toArray();
         $this->assertEquals('1', $results[0]['id']);
     }

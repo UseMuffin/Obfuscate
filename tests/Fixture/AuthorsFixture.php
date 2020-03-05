@@ -14,6 +14,7 @@ class AuthorsFixture extends TestFixture
      */
     public $fields = [
         'id' => ['type' => 'integer'],
+        'uuid' => ['type' => 'string'],
         'name' => ['type' => 'string', 'null' => false],
         'created' => ['type' => 'datetime', 'null' => true],
         'modified' => ['type' => 'datetime', 'null' => true],
@@ -26,8 +27,8 @@ class AuthorsFixture extends TestFixture
      * @var array
      */
     public $records = [
-        ['name' => 'John'],
-        ['name' => 'Jane'],
+        ['name' => 'John', 'uuid' => 'f1f88079-ec15-4863-ad41-7e85cfa98f3d'],
+        ['name' => 'Jane', 'uuid' => 'a2234d7c-6de7-4b28-aa34-39d57f3d35e3'],
     ];
 
     public function init()
