@@ -34,8 +34,6 @@ class ObfuscateBehaviorTest extends TestCase
     {
         parent::setUp();
 
-        $strategy = new TinyStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B');
-
         $this->Authors = TableRegistry::get('Muffin/Obfuscate.Authors', ['table' => 'obfuscate_authors']);
         $this->Authors->addBehavior('Muffin/Obfuscate.Obfuscate', [
             'strategy' => new UuidStrategy($this->Authors),
@@ -44,7 +42,9 @@ class ObfuscateBehaviorTest extends TestCase
         $this->Comments = TableRegistry::get('Muffin/Obfuscate.Comments', ['table' => 'obfuscate_comments']);
 
         $this->Tags = TableRegistry::get('Muffin/Obfuscate.Tags', ['table' => 'obfuscate_tags']);
-        $this->Tags->addBehavior('Muffin/Obfuscate.Obfuscate', compact('strategy'));
+        $this->Tags->addBehavior('Muffin/Obfuscate.Obfuscate', [
+            'strategy' => new TinyStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B'),
+        ]);
 
         $this->Articles = TableRegistry::get('Muffin/Obfuscate.Articles', ['table' => 'obfuscate_articles']);
         $this->Articles->addBehavior('Muffin/Obfuscate.Obfuscate', ['strategy' => new TinyStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B')]);
