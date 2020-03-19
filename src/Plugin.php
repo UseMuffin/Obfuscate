@@ -16,4 +16,25 @@ class Plugin extends BasePlugin
      * @var string
      */
     protected $name = 'Obfuscate';
+
+    /**
+     * Do bootstrapping or not
+     *
+     * @var bool
+     */
+    protected $bootstrapEnabled = false;
+
+    /**
+     * Load routes or not
+     *
+     * @var bool
+     */
+    protected $routesEnabled = false;
+
+    /**
+     * Console middleware
+     *
+     * @var bool
+     */
+    protected $consoleEnabled = false;
 }
