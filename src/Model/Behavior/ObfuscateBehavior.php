@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace Muffin\Obfuscate\Model\Behavior;
 
 use ArrayObject;
-use Cake\Core\Exception\Exception;
 use Cake\Database\Expression\Comparison;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
+use InvalidArgumentException;
 use Muffin\Obfuscate\Model\Behavior\Strategy\StrategyInterface;
 use RuntimeException;
 
@@ -54,12 +54,12 @@ class ObfuscateBehavior extends Behavior
     {
         $strategy = $this->getConfig('strategy');
         if (empty($strategy)) {
-            throw new Exception('Missing required obfuscation strategy.');
+            throw new InvalidArgumentException('Missing required obfuscation strategy.');
         }
 
         if (!($strategy instanceof StrategyInterface)) {
-            throw new Exception(
-                'Strategy must implement the `Muffin\Obfuscate\Model\Behavior\Strategy\StrategyInterface`'
+            throw new InvalidArgumentException(
+                'Strategy must implement ' . StrategyInterface::class
             );
         }
 

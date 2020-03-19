@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Muffin\Obfuscate\Test\TestCase\Model\Behavior;
 
-use Cake\Core\Exception\Exception;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use InvalidArgumentException;
 use Muffin\Obfuscate\Model\Behavior\Strategy\TinyStrategy;
 use Muffin\Obfuscate\Model\Behavior\Strategy\UuidStrategy;
 
@@ -82,7 +82,7 @@ class ObfuscateBehaviorTest extends TestCase
 
     public function testVerifyConfig(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Missing required obfuscation strategy');
 
         $this->Articles->removeBehavior('Obfuscate');
