@@ -1,7 +1,7 @@
 <?php
-namespace Muffin\Obfuscate\Model\Behavior\Strategy;
+declare(strict_types=1);
 
-use Cake\ORM\Table;
+namespace Muffin\Obfuscate\Model\Behavior\Strategy;
 
 /**
  * Class UuidStrategy
@@ -9,7 +9,6 @@ use Cake\ORM\Table;
  */
 class UuidStrategy implements StrategyInterface
 {
-
     /**
      * UUID field to use.
      *
@@ -20,14 +19,14 @@ class UuidStrategy implements StrategyInterface
     /**
      * Table using this strategy.
      *
-     * @var Table
+     * @var \Cake\ORM\Table
      */
     protected $_table;
 
     /**
      * Constructor.
      *
-     * @param Table $table Instance of the table using the strategy.
+     * @param \Cake\ORM\Table $table Instance of the table using the strategy.
      * @param string $field Name of the UUID field on the table.
      */
     public function __construct($table, $field = 'uuid')
