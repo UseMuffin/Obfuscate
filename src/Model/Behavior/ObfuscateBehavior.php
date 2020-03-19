@@ -93,7 +93,7 @@ class ObfuscateBehavior extends Behavior
      * @param bool $primary True if this is the primary table.
      * @return void
      */
-    public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, $primary)
+    public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, bool $primary)
     {
         if (empty($options['obfuscate']) || !$primary) {
             return;
@@ -160,10 +160,10 @@ class ObfuscateBehavior extends Behavior
     /**
      * Proxy to the obfuscating strategy's `obfuscate()`.
      *
-     * @param string $str String to obfuscate.
+     * @param string|int $str String to obfuscate.
      * @return string
      */
-    public function obfuscate($str)
+    public function obfuscate($str): string
     {
         return $this->strategy()->obfuscate($str);
     }
@@ -171,10 +171,10 @@ class ObfuscateBehavior extends Behavior
     /**
      * Proxy to the obfuscating strategy's `elucidate()`.
      *
-     * @param string $str String to elucidate.
-     * @return string
+     * @param int|string $str String to elucidate.
+     * @return int
      */
-    public function elucidate($str)
+    public function elucidate($str): int
     {
         return $this->strategy()->elucidate($str);
     }
@@ -184,7 +184,7 @@ class ObfuscateBehavior extends Behavior
      *
      * @return \Muffin\Obfuscate\Model\Behavior\Strategy\StrategyInterface
      */
-    public function strategy()
+    public function strategy(): StrategyInterface
     {
         return $this->getConfig('strategy');
     }

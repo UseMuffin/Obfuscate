@@ -27,7 +27,7 @@ class HashidStrategy implements StrategyInterface
      * @param string $alphabet Custom alphabet to use.
      * @throws \Exception
      */
-    public function __construct($salt = null, $minLength = 0, $alphabet = null)
+    public function __construct(?string $salt = null, int $minLength = 0, ?string $alphabet = null)
     {
         if ($salt === null) {
             $salt = Configure::read('Obfuscate.salt');
@@ -44,24 +44,18 @@ class HashidStrategy implements StrategyInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @param int|string $str String to obfuscate.
-     * @return string
+     * @inheritDoc
      */
-    public function obfuscate($str)
+    public function obfuscate($str): string
     {
         return $this->_hashid->encode((string)$str);
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @param string $str String to elucidate.
-     * @return string
+     * @inheritDoc
      */
-    public function elucidate($str)
+    public function elucidate($str): int
     {
-        return current($this->_hashid->decode($str));
+        return current($this->_hashid->decode((string)$str));
     }
 }

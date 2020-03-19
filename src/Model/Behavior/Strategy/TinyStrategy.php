@@ -31,30 +31,24 @@ class TinyStrategy implements StrategyInterface
      *
      * @param string $set Random alpha-numeric set.
      */
-    public function __construct($set)
+    public function __construct(string $set)
     {
         $this->_set = $set;
         $this->_tiny = new Tiny($set);
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @param int|string $str String to obfuscate.
-     * @return string
+     * @inheritDoc
      */
-    public function obfuscate($str)
+    public function obfuscate($str): string
     {
         return $this->_tiny->to((string)$str);
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @param string $str String to elucidate.
-     * @return string
+     * @inheritDoc
      */
-    public function elucidate($str)
+    public function elucidate($str): int
     {
         return $this->_tiny->from($str);
     }

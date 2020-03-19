@@ -22,18 +22,15 @@ class OptimusStrategy implements StrategyInterface
      * @param int $inverse Inverse number.
      * @param int $random Random number.
      */
-    public function __construct($prime, $inverse, $random)
+    public function __construct(int $prime, int $inverse, int $random)
     {
         $this->_optimus = new Optimus($prime, $inverse, $random);
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @param int|string $str String to obfuscate.
-     * @return string
+     * @inheritDoc
      */
-    public function obfuscate($str)
+    public function obfuscate($str): string
     {
         if (!is_numeric($str)) {
             throw new InvalidArgumentException('Argument should be an integer');
@@ -43,17 +40,14 @@ class OptimusStrategy implements StrategyInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @param string $str String to elucidate.
-     * @return string
+     * @inheritDoc
      */
-    public function elucidate($str)
+    public function elucidate($str): int
     {
         if (!is_numeric($str)) {
             throw new InvalidArgumentException('Argument should be an integer');
         }
 
-        return (string)$this->_optimus->decode((int)$str);
+        return $this->_optimus->decode((int)$str);
     }
 }
