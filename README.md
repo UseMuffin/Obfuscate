@@ -1,7 +1,7 @@
 # Obfuscate
 
-[![Build Status](https://img.shields.io/travis/UseMuffin/Obfuscate/master.svg?style=flat-square)](https://travis-ci.org/UseMuffin/Obfuscate)
-[![Coverage](https://img.shields.io/codecov/c/github/UseMuffin/Obfuscate.svg?style=flat-square)](https://codecov.io/github/UseMuffin/Obfuscate)
+[![Build Status](https://img.shields.io/github/workflow/status/UseMuffin/Obfuscate/CI/master?style=flat-square)](https://github.com/UseMuffin/Obfuscate/actions?query=workflow%3ACI+branch%3Amaster)
+[![Coverage Status](https://img.shields.io/codecov/c/github/UseMuffin/Obfuscate.svg?style=flat-square)](https://codecov.io/github/UseMuffin/Obfuscate)
 [![Total Downloads](https://img.shields.io/packagist/dt/muffin/obfuscate.svg?style=flat-square)](https://packagist.org/packages/muffin/obfuscate)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 

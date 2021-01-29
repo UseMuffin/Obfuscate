@@ -6,7 +6,7 @@ namespace Muffin\Obfuscate\Test\TestCase\Model\Behavior;
 use Cake\ORM\Entity;
 use Cake\TestSuite\TestCase;
 use InvalidArgumentException;
-use Muffin\Obfuscate\Model\Behavior\Strategy\TinyStrategy;
+use Muffin\Obfuscate\Model\Behavior\Strategy\StrategyInterface;
 use Muffin\Obfuscate\Model\Behavior\Strategy\UuidStrategy;
 
 class ObfuscateBehaviorTest extends TestCase
@@ -55,13 +55,27 @@ class ObfuscateBehaviorTest extends TestCase
 
         $this->Comments = $this->getTableLocator()->get('Muffin/Obfuscate.Comments', ['table' => 'obfuscate_comments']);
 
+        $strategy = $this->getMockBuilder(StrategyInterface::class)
+            ->getMock();
+        $strategy->expects($this->any())
+            ->method('obfuscate')
+            ->will($this->returnCallback(function ($id) {
+                return 'a' . $id;
+            }));
+
+        $strategy->expects($this->any())
+            ->method('elucidate')
+            ->will($this->returnCallback(function ($hashId) {
+                return (int)substr($hashId, 1);
+            }));
+
         $this->Tags = $this->getTableLocator()->get('Muffin/Obfuscate.Tags', ['table' => 'obfuscate_tags']);
         $this->Tags->addBehavior('Muffin/Obfuscate.Obfuscate', [
-            'strategy' => new TinyStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B'),
+            'strategy' => $strategy,
         ]);
 
         $this->Articles = $this->getTableLocator()->get('Muffin/Obfuscate.Articles', ['table' => 'obfuscate_articles']);
-        $this->Articles->addBehavior('Muffin/Obfuscate.Obfuscate', ['strategy' => new TinyStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B')]);
+        $this->Articles->addBehavior('Muffin/Obfuscate.Obfuscate', ['strategy' => $strategy]);
         $this->Articles->hasMany('Muffin/Obfuscate.Comments');
         $this->Articles->belongsTo('Muffin/Obfuscate.Authors');
         $this->Articles->belongsToMany('Muffin/Obfuscate.Tags', [
@@ -92,7 +106,7 @@ class ObfuscateBehaviorTest extends TestCase
     {
         $entity = new Entity(['id' => 5, 'title' => 'foo']);
         $this->Articles->save($entity);
-        $this->assertEquals('E', $entity['id']);
+        $this->assertEquals('a5', $entity['id']);
         $this->assertFalse($entity->isDirty('id'));
     }
 
@@ -109,7 +123,7 @@ class ObfuscateBehaviorTest extends TestCase
         ])->first();
 
         $this->assertEquals('f1f88079-ec15-4863-ad41-7e85cfa98f3d', $result['author']['id']);
-        $this->assertEquals('S', $result['tags'][0]['id']);
+        $this->assertEquals('a1', $result['tags'][0]['id']);
         $this->assertEquals(1, $result['comments'][0]['id']);
         $this->assertEquals(2, $result['comments'][1]['id']);
     }
@@ -139,7 +153,7 @@ class ObfuscateBehaviorTest extends TestCase
     public function testFindObfuscated(): void
     {
         $results = $this->Articles->find('obfuscated')
-            ->where(['id' => 'S'])
+            ->where(['id' => 'a1'])
             ->toArray();
         $this->assertEquals('1', $results[0]['id']);
 
@@ -163,11 +177,11 @@ class ObfuscateBehaviorTest extends TestCase
 
     public function testObfuscate(): void
     {
-        $this->assertEquals('S', $this->Articles->behaviors()->call('obfuscate', [1]));
+        $this->assertEquals('a1', $this->Articles->behaviors()->call('obfuscate', [1]));
     }
 
     public function testElucidate(): void
     {
-        $this->assertEquals(1, $this->Articles->behaviors()->call('elucidate', ['S']));
+        $this->assertEquals(1, $this->Articles->behaviors()->call('elucidate', ['a1']));
     }
 }

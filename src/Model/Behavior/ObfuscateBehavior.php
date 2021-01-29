@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Muffin\Obfuscate\Model\Behavior;
 
 use ArrayObject;
-use Cake\Database\Expression\Comparison;
+use Cake\Database\Expression\ComparisonExpression;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
@@ -105,7 +105,7 @@ class ObfuscateBehavior extends Behavior
             }
 
             if (
-                $expression instanceof Comparison
+                $expression instanceof ComparisonExpression
                 && in_array($expression->getField(), [$pk, $this->_table->aliasField($pk)])
             ) {
                 $expression->setValue($this->elucidate($expression->getValue()));
