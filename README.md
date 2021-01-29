@@ -105,8 +105,7 @@ $this->addBehavior('Muffin/Obfuscate.Obfuscate', [
 ### 2. Using the custom finders
 
 This plugin comes with the following two custom finders that are responsible for
-the actual obfuscation (cloaking) and elucidation (uncloaking) process and need
-to be used inside your `Model.afterSave` or `Model.beforeFind` events:
+the actual obfuscation (cloaking) and elucidation (uncloaking) process:
 
 - `findObfuscated`: used to find records using an obfuscated (cloaked) primary key
 - `findObfuscate`: used to obfuscate (cloak) all primary keys in a find result set
@@ -119,19 +118,21 @@ using the "normal" primary key as it is used inside your database.
 
 CakePHP example:
 ```php
-public function beforeFind()
+public function view($id)
 {
-    $this->Articles->find('obfuscated')
-        ->where(['id' => 'S']); // will search for id 1
+    $article = $this->Articles->find('obfuscated')
+        ->where(['id' => $id]) // For e.g. if value for $id is 'S' it will search for actual id 1
+        ->first();
 }
 ```
 
-CRUD example:
+Crud plugin example:
 ```php
 public function view()
 {
-    $this->Crud->on('beforeFind', function (Event $event) {
+    $this->Crud->on('beforeFind', function (EventInterface $event) {
         $event->subject()->query->find('obfuscated');
+    });
 }
 ```
 
@@ -142,18 +143,19 @@ found in a find result set.
 
 CakePHP example:
 ```php
-public function beforeFind()
+public function index()
 {
-    $this->Articles->find('obfuscate');
+    $articles = $this->Articles->find('obfuscate');
 }
 ```
 
-CRUD example:
+Crud plugin example:
 ```php
 public function index()
 {
-    $this->Crud->on('beforePaginate', function (Event $event) {
+    $this->Crud->on('beforePaginate', function (EventInterface $event) {
         $event->subject()->query->find('obfuscate');
+    });
 }
 ```
 
