@@ -7,7 +7,6 @@ use Cake\ORM\Entity;
 use Cake\TestSuite\TestCase;
 use InvalidArgumentException;
 use Muffin\Obfuscate\Model\Behavior\Strategy\StrategyInterface;
-use Muffin\Obfuscate\Model\Behavior\Strategy\TinyStrategy;
 use Muffin\Obfuscate\Model\Behavior\Strategy\UuidStrategy;
 
 class ObfuscateBehaviorTest extends TestCase
