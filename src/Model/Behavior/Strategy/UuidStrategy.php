@@ -1,15 +1,15 @@
 <?php
+declare(strict_types=1);
+
 namespace Muffin\Obfuscate\Model\Behavior\Strategy;
 
 use Cake\ORM\Table;
 
 /**
  * Class UuidStrategy
- *
  */
 class UuidStrategy implements StrategyInterface
 {
-
     /**
      * UUID field to use.
      *
@@ -20,30 +20,28 @@ class UuidStrategy implements StrategyInterface
     /**
      * Table using this strategy.
      *
-     * @var Table
+     * @var \Cake\ORM\Table
      */
     protected $_table;
 
     /**
      * Constructor.
      *
-     * @param Table $table Instance of the table using the strategy.
+     * @param \Cake\ORM\Table $table Instance of the table using the strategy.
      * @param string $field Name of the UUID field on the table.
      */
-    public function __construct($table, $field = 'uuid')
+    public function __construct(Table $table, string $field = 'uuid')
     {
         $this->_table = $table;
         $this->_field = $field;
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @param string $str String to obfuscate.
-     * @return string
+     * @inheritDoc
      */
-    public function obfuscate($str)
+    public function obfuscate($str): string
     {
+        /** @psalm-suppress InvalidArrayOffset */
         $record = $this->_table
             ->find()
             ->where([$this->_table->getPrimaryKey() => $str])
@@ -54,12 +52,9 @@ class UuidStrategy implements StrategyInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @param string $str String to elucidate.
-     * @return string
+     * @inheritDoc
      */
-    public function elucidate($str)
+    public function elucidate($str): int
     {
         $pk = $this->_table->getPrimaryKey();
 

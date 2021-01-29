@@ -1,7 +1,7 @@
 # Obfuscate
 
-[![Build Status](https://img.shields.io/travis/UseMuffin/Obfuscate/master.svg?style=flat-square)](https://travis-ci.org/UseMuffin/Obfuscate)
-[![Coverage](https://img.shields.io/codecov/c/github/UseMuffin/Obfuscate.svg?style=flat-square)](https://codecov.io/github/UseMuffin/Obfuscate)
+[![Build Status](https://img.shields.io/github/workflow/status/UseMuffin/Obfuscate/CI/master?style=flat-square)](https://github.com/UseMuffin/Obfuscate/actions?query=workflow%3ACI+branch%3Amaster)
+[![Coverage Status](https://img.shields.io/codecov/c/github/UseMuffin/Obfuscate.svg?style=flat-square)](https://codecov.io/github/UseMuffin/Obfuscate)
 [![Total Downloads](https://img.shields.io/packagist/dt/muffin/obfuscate.svg?style=flat-square)](https://packagist.org/packages/muffin/obfuscate)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 
@@ -19,6 +19,12 @@ Load the plugin by either running this console command:
 
 ```
 bin/cake plugin load Muffin/Obfuscate
+```
+
+or by manually adding the following line to `src/Application.php`:
+
+```php
+$this->addPlugin('Muffin/Obfuscate');
 ```
 
 Lastly, composer install (any combination of) the obfuscation libraries you
@@ -99,8 +105,7 @@ $this->addBehavior('Muffin/Obfuscate.Obfuscate', [
 ### 2. Using the custom finders
 
 This plugin comes with the following two custom finders that are responsible for
-the actual obfuscation (cloaking) and elucidation (uncloaking) process and need
-to be used inside your `Model.afterSave` or `Model.beforeFind` events:
+the actual obfuscation (cloaking) and elucidation (uncloaking) process:
 
 - `findObfuscated`: used to find records using an obfuscated (cloaked) primary key
 - `findObfuscate`: used to obfuscate (cloak) all primary keys in a find result set
@@ -113,19 +118,21 @@ using the "normal" primary key as it is used inside your database.
 
 CakePHP example:
 ```php
-public function beforeFind()
+public function view($id)
 {
-    $this->Articles->find('obfuscated')
-        ->where(['id' => 'S']); // will search for id 1
+    $article = $this->Articles->find('obfuscated')
+        ->where(['id' => $id]) // For e.g. if value for $id is 'S' it will search for actual id 1
+        ->first();
 }
 ```
 
-CRUD example:
+Crud plugin example:
 ```php
 public function view()
 {
-    $this->Crud->on('beforeFind', function (Event $event) {
+    $this->Crud->on('beforeFind', function (EventInterface $event) {
         $event->subject()->query->find('obfuscated');
+    });
 }
 ```
 
@@ -136,18 +143,19 @@ found in a find result set.
 
 CakePHP example:
 ```php
-public function beforeFind()
+public function index()
 {
-    $this->Articles->find('obfuscate');
+    $articles = $this->Articles->find('obfuscate');
 }
 ```
 
-CRUD example:
+Crud plugin example:
 ```php
 public function index()
 {
-    $this->Crud->on('beforePaginate', function (Event $event) {
+    $this->Crud->on('beforePaginate', function (EventInterface $event) {
         $event->subject()->query->find('obfuscate');
+    });
 }
 ```
 

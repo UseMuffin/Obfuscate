@@ -1,39 +1,22 @@
 <?php
+declare(strict_types=1);
+
 namespace Muffin\Obfuscate\Model\Behavior\Strategy;
 
 use Cake\Core\Configure;
 use Hashids\Hashids;
 
 /**
- * Class DefaultStrategy
- *
+ * Class HashidStrategy
  */
 class HashidStrategy implements StrategyInterface
 {
-
+    /**
+     * Obfuscator.
+     *
+     * @var \Hashids\Hashids
+     */
     protected $_hashid;
-
-    /**
-     * Random alpha-numeric set where each character must only be
-     * used exactly once.
-     *
-     * @var string
-     */
-    protected $_salt;
-
-    /**
-     * The minimum hash length.
-     *
-     * @var int
-     */
-    protected $_minLength;
-
-    /**
-     * Custom alphabet to use.
-     *
-     * @var string
-     */
-    protected $_alphabet;
 
     /**
      * Constructor.
@@ -43,7 +26,7 @@ class HashidStrategy implements StrategyInterface
      * @param string $alphabet Custom alphabet to use.
      * @throws \Exception
      */
-    public function __construct($salt = null, $minLength = 0, $alphabet = null)
+    public function __construct(?string $salt = null, int $minLength = 0, ?string $alphabet = null)
     {
         if ($salt === null) {
             $salt = Configure::read('Obfuscate.salt');
@@ -51,9 +34,6 @@ class HashidStrategy implements StrategyInterface
         if (empty($salt)) {
             throw new \Exception('Missing salt for Hashid strategy');
         }
-        $this->_salt = $salt;
-        $this->_minLength = $minLength;
-        $this->_alphabet = $alphabet;
 
         if ($alphabet === null) {
             $this->_hashid = new Hashids($salt, $minLength);
@@ -63,24 +43,18 @@ class HashidStrategy implements StrategyInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @param string $str String to obfuscate.
-     * @return string
+     * @inheritDoc
      */
-    public function obfuscate($str)
+    public function obfuscate($str): string
     {
-        return $this->_hashid->encode($str);
+        return $this->_hashid->encode((string)$str);
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @param string $str String to elucidate.
-     * @return string
+     * @inheritDoc
      */
-    public function elucidate($str)
+    public function elucidate($str): int
     {
-        return current($this->_hashid->decode($str));
+        return current($this->_hashid->decode((string)$str));
     }
 }

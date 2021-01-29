@@ -1,26 +1,26 @@
 <?php
+declare(strict_types=1);
+
 namespace Muffin\Obfuscate\Model\Behavior\Strategy;
 
 /**
  * Interface StrategyInterface
- *
  */
 interface StrategyInterface
 {
-
     /**
-     * Obfuscates a given string.
+     * Obfuscates a given integer/string.
      *
-     * @param string $str String to obfuscate.
+     * @param int|string $str String to obfuscate.
      * @return string
      */
-    public function obfuscate($str);
+    public function obfuscate($str): string;
 
     /**
      * Elucidates (de-obfuscates) a given string.
      *
-     * @param string $str String to elucidate.
-     * @return string
+     * @param int|string $str String to elucidate.
+     * @return int
      */
-    public function elucidate($str);
+    public function elucidate($str): int;
 }

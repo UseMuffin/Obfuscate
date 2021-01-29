@@ -1,24 +1,25 @@
 <?php
+declare(strict_types=1);
+
 namespace Muffin\Obfuscate\Model\Behavior;
 
 use ArrayObject;
-use Cake\Core\Exception\Exception;
+use Cake\Database\Expression\ComparisonExpression;
 use Cake\Datasource\EntityInterface;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
-use Cake\ORM\ResultSet;
+use InvalidArgumentException;
 use Muffin\Obfuscate\Model\Behavior\Strategy\StrategyInterface;
+use RuntimeException;
 
 /**
  * Class ObfuscateBehavior
- *
  */
 class ObfuscateBehavior extends Behavior
 {
-
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     protected $_defaultConfig = [
         'strategy' => null,
@@ -38,7 +39,7 @@ class ObfuscateBehavior extends Behavior
      * @param array $config Behavior's configuration.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->verifyConfig();
     }
@@ -48,16 +49,16 @@ class ObfuscateBehavior extends Behavior
      *
      * @return void
      */
-    public function verifyConfig()
+    public function verifyConfig(): void
     {
         $strategy = $this->getConfig('strategy');
-        if (!$strategy) {
-            throw new Exception('Missing required obfuscation strategy.');
+        if (empty($strategy)) {
+            throw new InvalidArgumentException('Missing required obfuscation strategy.');
         }
 
         if (!($strategy instanceof StrategyInterface)) {
-            throw new Exception(
-                'Strategy must implement the `Muffin\Obfuscate\Model\Behavior\Strategy\StrategyInterface`'
+            throw new InvalidArgumentException(
+                'Strategy must implement ' . StrategyInterface::class
             );
         }
 
@@ -67,14 +68,17 @@ class ObfuscateBehavior extends Behavior
     /**
      * Callback to obfuscate the record(s)' primary key returned after a save operation.
      *
-     * @param \Cake\ORM\Behavior\Event $event Event.
-     * @param \Cake\ORM\Behavior\EntityInterface $entity Entity.
+     * @param \Cake\Event\EventInterface $event EventInterface.
+     * @param \Cake\Datasource\EntityInterface $entity Entity.
      * @param \ArrayObject $options Options.
      * @return void
      */
-    public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
+    public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
         $pk = $this->_table->getPrimaryKey();
+        if (is_array($pk)) {
+            throw new RuntimeException('Composite primary keys are not supported.');
+        }
         $entity->set($pk, $this->obfuscate($entity->{$pk}));
         $entity->setDirty($pk, false);
     }
@@ -82,13 +86,13 @@ class ObfuscateBehavior extends Behavior
     /**
      * Callback to set the `obfuscated` finder on all associations.
      *
-     * @param \Cake\ORM\Behavior\Event $event Event.
+     * @param \Cake\Event\EventInterface $event EventInterface.
      * @param \Cake\ORM\Query $query Query.
      * @param \ArrayObject $options Options.
      * @param bool $primary True if this is the primary table.
      * @return void
      */
-    public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary)
+    public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, bool $primary)
     {
         if (empty($options['obfuscate']) || !$primary) {
             return;
@@ -96,8 +100,12 @@ class ObfuscateBehavior extends Behavior
 
         $query->traverseExpressions(function ($expression) {
             $pk = $this->_table->getPrimaryKey();
+            if (is_array($pk)) {
+                throw new RuntimeException('Composite primary keys are not supported.');
+            }
+
             if (
-                method_exists($expression, 'getField')
+                $expression instanceof ComparisonExpression
                 && in_array($expression->getField(), [$pk, $this->_table->aliasField($pk)])
             ) {
                 $expression->setValue($this->elucidate($expression->getValue()));
@@ -151,10 +159,10 @@ class ObfuscateBehavior extends Behavior
     /**
      * Proxy to the obfuscating strategy's `obfuscate()`.
      *
-     * @param string $str String to obfuscate.
+     * @param string|int $str String to obfuscate.
      * @return string
      */
-    public function obfuscate($str)
+    public function obfuscate($str): string
     {
         return $this->strategy()->obfuscate($str);
     }
@@ -162,10 +170,10 @@ class ObfuscateBehavior extends Behavior
     /**
      * Proxy to the obfuscating strategy's `elucidate()`.
      *
-     * @param string $str String to elucidate.
-     * @return string
+     * @param int|string $str String to elucidate.
+     * @return int
      */
-    public function elucidate($str)
+    public function elucidate($str): int
     {
         return $this->strategy()->elucidate($str);
     }
@@ -173,9 +181,9 @@ class ObfuscateBehavior extends Behavior
     /**
      * Get the configured strategy.
      *
-     * @return \Muffin\Obfuscate\Model\Behavior\ObfuscateStrategy\StrategyInterface
+     * @return \Muffin\Obfuscate\Model\Behavior\Strategy\StrategyInterface
      */
-    public function strategy()
+    public function strategy(): StrategyInterface
     {
         return $this->getConfig('strategy');
     }
