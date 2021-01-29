@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Muffin\Obfuscate\Test\TestCase\Model\Behavior;
 
 use Cake\ORM\Entity;
-use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use InvalidArgumentException;
 use Muffin\Obfuscate\Model\Behavior\Strategy\TinyStrategy;
@@ -15,29 +14,29 @@ class ObfuscateBehaviorTest extends TestCase
     /**
      * @var \Cake\ORM\Table;
      */
-    public $Articles;
+    protected $Articles;
 
     /**
      * @var \Cake\ORM\Table;
      */
-    public $Authors;
+    protected $Authors;
 
     /**
      * @var \Cake\ORM\Table;
      */
-    public $Comments;
+    protected $Comments;
 
     /**
      * @var \Cake\ORM\Table;
      */
-    public $Tags;
+    protected $Tags;
 
     /**
      * @var \Muffin\Obfuscate\Model\Behavior\ObfuscateBehavior
      */
-    public $Obfuscate;
+    protected $Obfuscate;
 
-    public $fixtures = [
+    protected $fixtures = [
         'plugin.Muffin/Obfuscate.Articles',
         'plugin.Muffin/Obfuscate.Authors',
         'plugin.Muffin/Obfuscate.Comments',
@@ -49,26 +48,26 @@ class ObfuscateBehaviorTest extends TestCase
     {
         parent::setUp();
 
-        $this->Authors = TableRegistry::get('Muffin/Obfuscate.Authors', ['table' => 'obfuscate_authors']);
+        $this->Authors = $this->getTableLocator()->get('Muffin/Obfuscate.Authors', ['table' => 'obfuscate_authors']);
         $this->Authors->addBehavior('Muffin/Obfuscate.Obfuscate', [
             'strategy' => new UuidStrategy($this->Authors),
         ]);
 
-        $this->Comments = TableRegistry::get('Muffin/Obfuscate.Comments', ['table' => 'obfuscate_comments']);
+        $this->Comments = $this->getTableLocator()->get('Muffin/Obfuscate.Comments', ['table' => 'obfuscate_comments']);
 
-        $this->Tags = TableRegistry::get('Muffin/Obfuscate.Tags', ['table' => 'obfuscate_tags']);
+        $this->Tags = $this->getTableLocator()->get('Muffin/Obfuscate.Tags', ['table' => 'obfuscate_tags']);
         $this->Tags->addBehavior('Muffin/Obfuscate.Obfuscate', [
             'strategy' => new TinyStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B'),
         ]);
 
-        $this->Articles = TableRegistry::get('Muffin/Obfuscate.Articles', ['table' => 'obfuscate_articles']);
+        $this->Articles = $this->getTableLocator()->get('Muffin/Obfuscate.Articles', ['table' => 'obfuscate_articles']);
         $this->Articles->addBehavior('Muffin/Obfuscate.Obfuscate', ['strategy' => new TinyStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B')]);
         $this->Articles->hasMany('Muffin/Obfuscate.Comments');
         $this->Articles->belongsTo('Muffin/Obfuscate.Authors');
         $this->Articles->belongsToMany('Muffin/Obfuscate.Tags', [
             'foreignKey' => 'obfuscate_article_id',
             'joinTable' => 'obfuscate_articles_tags',
-            'through' => TableRegistry::get('Muffin/Obfuscate.ArticlesTags', ['table' => 'obfuscate_articles_tags']),
+            'through' => $this->getTableLocator()->get('Muffin/Obfuscate.ArticlesTags', ['table' => 'obfuscate_articles_tags']),
         ]);
 
         $this->Obfuscate = $this->Articles->getBehavior('Obfuscate');
@@ -77,7 +76,7 @@ class ObfuscateBehaviorTest extends TestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        TableRegistry::clear();
+        $this->getTableLocator()->clear();
     }
 
     public function testVerifyConfig(): void
