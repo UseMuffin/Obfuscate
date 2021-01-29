@@ -15,12 +15,11 @@ use RuntimeException;
 
 /**
  * Class ObfuscateBehavior
- *
  */
 class ObfuscateBehavior extends Behavior
 {
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     protected $_defaultConfig = [
         'strategy' => null,

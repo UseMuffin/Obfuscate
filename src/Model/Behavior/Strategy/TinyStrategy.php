@@ -7,7 +7,6 @@ use ZackKitzmiller\Tiny;
 
 /**
  * Class TinyStrategy
- *
  */
 class TinyStrategy implements StrategyInterface
 {

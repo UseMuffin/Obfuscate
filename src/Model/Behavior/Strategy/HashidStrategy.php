@@ -7,8 +7,7 @@ use Cake\Core\Configure;
 use Hashids\Hashids;
 
 /**
- * Class DefaultStrategy
- *
+ * Class HashidStrategy
  */
 class HashidStrategy implements StrategyInterface
 {

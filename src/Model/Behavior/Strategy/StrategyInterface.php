@@ -5,7 +5,6 @@ namespace Muffin\Obfuscate\Model\Behavior\Strategy;
 
 /**
  * Interface StrategyInterface
- *
  */
 interface StrategyInterface
 {

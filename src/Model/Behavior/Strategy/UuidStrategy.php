@@ -7,7 +7,6 @@ use Cake\ORM\Table;
 
 /**
  * Class UuidStrategy
- *
  */
 class UuidStrategy implements StrategyInterface
 {
