@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Muffin\Obfuscate\Test\TestCase\Model\Behavior\Strategy;
 
+use Cake\TestSuite\TestCase;
 use Muffin\Obfuscate\Model\Behavior\Strategy\TinyStrategy;
-use PHPUnit\Framework\TestCase;
 
 class TinyStrategyTest extends TestCase
 {
@@ -15,6 +15,8 @@ class TinyStrategyTest extends TestCase
 
     public function setUp(): void
     {
+        $this->skipIf(PHP_VERSION_ID >= 80000, 'Tiny doesn\'t have PHP 8 support');
+
         $this->strategy = new TinyStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B');
     }
 
