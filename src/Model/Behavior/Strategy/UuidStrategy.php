@@ -41,7 +41,7 @@ class UuidStrategy implements StrategyInterface
      */
     public function obfuscate($str): string
     {
-        /** @psalm-suppress InvalidArgument */
+        /** @psalm-suppress InvalidArrayOffset */
         $record = $this->_table
             ->find()
             ->where([$this->_table->getPrimaryKey() => $str])
