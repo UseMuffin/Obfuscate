@@ -39,7 +39,7 @@ class UuidStrategy implements StrategyInterface
     /**
      * @inheritDoc
      */
-    public function obfuscate(int|string $str): string
+    public function obfuscate(string|int $str): string
     {
         /** @psalm-suppress InvalidArrayOffset */
         $record = $this->_table
@@ -54,7 +54,7 @@ class UuidStrategy implements StrategyInterface
     /**
      * @inheritDoc
      */
-    public function elucidate(int|string $str): int
+    public function elucidate(string|int $str): int
     {
         $pk = $this->_table->getPrimaryKey();
 

@@ -46,7 +46,7 @@ class HashidStrategy implements StrategyInterface
     /**
      * @inheritDoc
      */
-    public function obfuscate(int|string $str): string
+    public function obfuscate(string|int $str): string
     {
         return $this->_hashid->encode((string)$str);
     }
@@ -54,7 +54,7 @@ class HashidStrategy implements StrategyInterface
     /**
      * @inheritDoc
      */
-    public function elucidate(int|string $str): int
+    public function elucidate(string|int $str): int
     {
         return current($this->_hashid->decode((string)$str));
     }

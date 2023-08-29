@@ -157,10 +157,10 @@ class ObfuscateBehavior extends Behavior
     /**
      * Proxy to the obfuscating strategy's `obfuscate()`.
      *
-     * @param int|string $str String to obfuscate.
+     * @param string|int $str String to obfuscate.
      * @return string
      */
-    public function obfuscate(int|string $str): string
+    public function obfuscate(string|int $str): string
     {
         return $this->strategy()->obfuscate($str);
     }
@@ -168,10 +168,10 @@ class ObfuscateBehavior extends Behavior
     /**
      * Proxy to the obfuscating strategy's `elucidate()`.
      *
-     * @param int|string $str String to elucidate.
+     * @param string|int $str String to elucidate.
      * @return int
      */
-    public function elucidate(int|string $str): int
+    public function elucidate(string|int $str): int
     {
         return $this->strategy()->elucidate($str);
     }

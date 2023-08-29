@@ -30,7 +30,7 @@ class OptimusStrategy implements StrategyInterface
     /**
      * @inheritDoc
      */
-    public function obfuscate(int|string $str): string
+    public function obfuscate(string|int $str): string
     {
         if (!is_numeric($str)) {
             throw new InvalidArgumentException('Argument should be an integer');
@@ -42,7 +42,7 @@ class OptimusStrategy implements StrategyInterface
     /**
      * @inheritDoc
      */
-    public function elucidate(int|string $str): int
+    public function elucidate(string|int $str): int
     {
         if (!is_numeric($str)) {
             throw new InvalidArgumentException('Argument should be an integer');

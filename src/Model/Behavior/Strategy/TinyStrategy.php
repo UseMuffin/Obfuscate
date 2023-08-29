@@ -39,7 +39,7 @@ class TinyStrategy implements StrategyInterface
     /**
      * @inheritDoc
      */
-    public function obfuscate(int|string $str): string
+    public function obfuscate(string|int $str): string
     {
         return $this->_tiny->to((string)$str);
     }
@@ -47,7 +47,7 @@ class TinyStrategy implements StrategyInterface
     /**
      * @inheritDoc
      */
-    public function elucidate(int|string $str): int
+    public function elucidate(string|int $str): int
     {
         return $this->_tiny->from($str);
     }
