@@ -15,14 +15,14 @@ class UuidStrategy implements StrategyInterface
      *
      * @var string
      */
-    protected $_field;
+    protected string $_field;
 
     /**
      * Table using this strategy.
      *
      * @var \Cake\ORM\Table
      */
-    protected $_table;
+    protected Table $_table;
 
     /**
      * Constructor.
@@ -39,7 +39,7 @@ class UuidStrategy implements StrategyInterface
     /**
      * @inheritDoc
      */
-    public function obfuscate($str): string
+    public function obfuscate(int|string $str): string
     {
         /** @psalm-suppress InvalidArrayOffset */
         $record = $this->_table
@@ -54,7 +54,7 @@ class UuidStrategy implements StrategyInterface
     /**
      * @inheritDoc
      */
-    public function elucidate($str): int
+    public function elucidate(int|string $str): int
     {
         $pk = $this->_table->getPrimaryKey();
 

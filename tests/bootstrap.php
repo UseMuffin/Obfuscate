@@ -1,90 +1,125 @@
 <?php
+declare(strict_types=1);
 
+/**
+ * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link          https://cakephp.org CakePHP(tm) Project
+ * @license       https://www.opensource.org/licenses/mit-license.php MIT License
+ */
+
+use Cake\Cache\Cache;
+use Cake\Core\Configure;
 use Cake\Core\Plugin;
-// @codingStandardsIgnoreFile
+use Cake\Datasource\ConnectionManager;
+use Cake\Log\Log;
+use Cake\TestSuite\Fixture\SchemaLoader;
+use Muffin\Obfuscate\ObfuscatePlugin;
 
-$findRoot = function () {
-    $root = dirname(__DIR__);
-    if (is_dir($root . '/vendor/cakephp/cakephp')) {
-        return $root;
-    }
+require_once 'vendor/autoload.php';
 
-    $root = dirname(dirname(__DIR__));
-    if (is_dir($root . '/vendor/cakephp/cakephp')) {
-        return $root;
-    }
-
-    $root = dirname(dirname(dirname(__DIR__)));
-    if (is_dir($root . '/vendor/cakephp/cakephp')) {
-        return $root;
-    }
-};
-
+// Path constants to a few helpful things.
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
-define('ROOT', $findRoot());
+define('ROOT', dirname(__DIR__));
+define('CAKE_CORE_INCLUDE_PATH', ROOT . DS . 'vendor' . DS . 'cakephp' . DS . 'cakephp');
+define('CORE_PATH', ROOT . DS . 'vendor' . DS . 'cakephp' . DS . 'cakephp' . DS);
+define('CAKE', CORE_PATH . 'src' . DS);
+define('TESTS', ROOT . DS . 'tests');
+define('APP', ROOT . DS . 'tests' . DS . 'test_app' . DS);
 define('APP_DIR', 'test_app');
 define('WEBROOT_DIR', 'webroot');
-define('APP', ROOT . '/tests/test_app/src/');
-define('CONFIG', ROOT . '/tests/test_app/config/');
-define('WWW_ROOT', ROOT . DS . WEBROOT_DIR . DS);
-define('TESTS', ROOT . DS . 'tests' . DS);
-define('TMP', ROOT . DS . 'tmp' . DS);
-define('LOGS', TMP . 'logs' . DS);
-define('CACHE', TMP . 'cache' . DS);
-define('CAKE_CORE_INCLUDE_PATH', ROOT . '/vendor/cakephp/cakephp');
-define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
-define('CAKE', CORE_PATH . 'src' . DS);
+define('WWW_ROOT', APP . 'webroot' . DS);
+define('TMP', sys_get_temp_dir() . DS);
+define('CONFIG', APP . 'config' . DS);
+define('CACHE', TMP);
+define('LOGS', TMP);
 
-require ROOT . '/vendor/autoload.php';
-require CORE_PATH . 'config/bootstrap.php';
+require_once CORE_PATH . 'config/bootstrap.php';
+require_once CAKE . 'Core/functions_global.php';
+require_once CAKE . 'Collection/functions_global.php';
 
-Cake\Core\Configure::write('App', [
+date_default_timezone_set('UTC');
+mb_internal_encoding('UTF-8');
+
+Configure::write('debug', true);
+Configure::write('App', [
     'namespace' => 'Muffin\Obfuscate\Test\App',
     'encoding' => 'UTF-8',
-    'fullBaseUrl' => 'http://localhost'
-]);
-Cake\Core\Configure::write('debug', true);
-
-$TMP = new \Cake\Filesystem\Folder(TMP);
-$TMP->create(TMP . 'cache/models', 0777);
-$TMP->create(TMP . 'cache/persistent', 0777);
-$TMP->create(TMP . 'cache/views', 0777);
-
-$cache = [
-    'default' => [
-        'engine' => 'File'
+    'base' => false,
+    'baseUrl' => false,
+    'dir' => 'src',
+    'webroot' => 'webroot',
+    'www_root' => APP . 'webroot',
+    'fullBaseUrl' => 'http://localhost',
+    'imageBaseUrl' => 'img/',
+    'jsBaseUrl' => 'js/',
+    'cssBaseUrl' => 'css/',
+    'paths' => [
+        'plugins' => [APP . 'Plugin' . DS],
+        'templates' => [APP . 'templates' . DS],
     ],
+]);
+Configure::write('Session', [
+    'defaults' => 'php',
+]);
+
+Cache::setConfig([
     '_cake_core_' => [
-        'className' => 'File',
-        'prefix' => 'muffin_obfuscate_myapp_cake_core_',
-        'path' => CACHE . 'persistent/',
+        'engine' => 'File',
+        'prefix' => 'cake_core_',
         'serialize' => true,
-        'duration' => '+10 seconds'
     ],
     '_cake_model_' => [
-        'className' => 'File',
-        'prefix' => 'muffin_obfuscate_my_app_cake_model_',
-        'path' => CACHE . 'models/',
-        'serialize' => 'File',
-        'duration' => '+10 seconds'
-    ]
-];
-
-Cake\Cache\Cache::setConfig($cache);
-Cake\Core\Configure::write('Session', [
-    'defaults' => 'php'
+        'engine' => 'File',
+        'prefix' => 'cake_model_',
+        'serialize' => true,
+    ],
+    'default' => [
+        'engine' => 'File',
+        'prefix' => 'default_',
+        'serialize' => true,
+    ],
 ]);
 
 // Ensure default test connection is defined
-if (!getenv('db_dsn')) {
+if (!getenv('DB_URL')) {
     putenv('db_dsn=sqlite:///:memory:');
 }
 
-Cake\Datasource\ConnectionManager::setConfig('test', [
+$config = [
     'url' => getenv('db_dsn'),
-    'timezone' => 'UTC'
+    'timezone' => 'UTC',
+];
+
+// Use the test connection for 'debug_kit' as well.
+ConnectionManager::setConfig('test', $config);
+
+Log::setConfig([
+    'debug' => [
+        'engine' => 'Cake\Log\Engine\FileLog',
+        'path' => LOGS,
+        'levels' => ['notice', 'info', 'debug'],
+        'file' => 'debug',
+    ],
+    'error' => [
+        'engine' => 'Cake\Log\Engine\FileLog',
+        'path' => LOGS,
+        'levels' => ['warning', 'error', 'critical', 'alert', 'emergency'],
+        'file' => 'error',
+    ],
 ]);
 
-Plugin::getCollection()->add(new \Muffin\Obfuscate\Plugin());
+Plugin::getCollection()->add(new ObfuscatePlugin());
+
+// Create test database schema
+if (env('FIXTURE_SCHEMA_METADATA')) {
+    $loader = new SchemaLoader();
+    $loader->loadInternalFile(env('FIXTURE_SCHEMA_METADATA'), 'test');
+}

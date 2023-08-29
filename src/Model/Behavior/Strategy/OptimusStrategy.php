@@ -13,7 +13,7 @@ class OptimusStrategy implements StrategyInterface
      *
      * @var \Jenssegers\Optimus\Optimus
      */
-    protected $_optimus;
+    protected Optimus $_optimus;
 
     /**
      * Constructor to configure the `Jenssegers\Optimus\Optimus` library.
@@ -30,7 +30,7 @@ class OptimusStrategy implements StrategyInterface
     /**
      * @inheritDoc
      */
-    public function obfuscate($str): string
+    public function obfuscate(int|string $str): string
     {
         if (!is_numeric($str)) {
             throw new InvalidArgumentException('Argument should be an integer');
@@ -42,7 +42,7 @@ class OptimusStrategy implements StrategyInterface
     /**
      * @inheritDoc
      */
-    public function elucidate($str): int
+    public function elucidate(int|string $str): int
     {
         if (!is_numeric($str)) {
             throw new InvalidArgumentException('Argument should be an integer');

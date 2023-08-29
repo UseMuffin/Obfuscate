@@ -16,14 +16,14 @@ class TinyStrategy implements StrategyInterface
      *
      * @var string
      */
-    protected $_set;
+    protected string $_set;
 
     /**
      * Obfuscator.
      *
      * @var \ZackKitzmiller\Tiny
      */
-    protected $_tiny;
+    protected Tiny $_tiny;
 
     /**
      * Constructor.
@@ -39,7 +39,7 @@ class TinyStrategy implements StrategyInterface
     /**
      * @inheritDoc
      */
-    public function obfuscate($str): string
+    public function obfuscate(int|string $str): string
     {
         return $this->_tiny->to((string)$str);
     }
@@ -47,7 +47,7 @@ class TinyStrategy implements StrategyInterface
     /**
      * @inheritDoc
      */
-    public function elucidate($str): int
+    public function elucidate(int|string $str): int
     {
         return $this->_tiny->from($str);
     }

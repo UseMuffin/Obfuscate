@@ -31,15 +31,18 @@
         "source": "https://github.com/usemuffin/obfuscate"
     },
     "require": {
-        "cakephp/orm": "^4.1"
+        "cakephp/orm": "5.0.0-RC2"
     },
     "require-dev": {
-        "cakephp/cakephp": "^4.1",
-        "phpunit/phpunit": "~8.5.0",
-        "zackkitzmiller/tiny": "^1.2",
-        "jenssegers/optimus": "^0.2",
+        "cakephp/cakephp": "5.0.0-RC2",
+        "phpunit/phpunit": "^10.1.0",
+        "cakephp/cakephp-codesniffer": "^5.0",
+        "zackkitzmiller/tiny": "^1.3",
+        "jenssegers/optimus": "^1.1.1",
         "hashids/hashids": "^1.0.5"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "suggest": {
         "zackkitzmiller/tiny": "A reversible base62 ID obfuscater",
         "jenssegers/optimus": "Id obfuscation based on Knuth's multiplicative hashing method",
@@ -53,6 +56,11 @@
     "autoload-dev": {
         "psr-4": {
             "Muffin\\Obfuscate\\Test\\": "tests"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     }
 }

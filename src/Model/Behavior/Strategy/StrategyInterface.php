@@ -14,7 +14,7 @@ interface StrategyInterface
      * @param int|string $str String to obfuscate.
      * @return string
      */
-    public function obfuscate($str): string;
+    public function obfuscate(int|string $str): string;
 
     /**
      * Elucidates (de-obfuscates) a given string.
@@ -22,5 +22,5 @@ interface StrategyInterface
      * @param int|string $str String to elucidate.
      * @return int
      */
-    public function elucidate($str): int;
+    public function elucidate(int|string $str): int;
 }

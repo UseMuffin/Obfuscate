@@ -7,28 +7,14 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 class AuthorsFixture extends TestFixture
 {
-    public $table = 'obfuscate_authors';
-
-    /**
-     * fields property
-     *
-     * @var array
-     */
-    public $fields = [
-        'id' => ['type' => 'integer'],
-        'uuid' => ['type' => 'string'],
-        'name' => ['type' => 'string', 'null' => false],
-        'created' => ['type' => 'datetime', 'null' => true],
-        'modified' => ['type' => 'datetime', 'null' => true],
-        '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
-    ];
+    public string $table = 'obfuscate_authors';
 
     /**
      * records property
      *
      * @var array
      */
-    public $records = [
+    public array $records = [
         ['name' => 'John', 'uuid' => 'f1f88079-ec15-4863-ad41-7e85cfa98f3d'],
         ['name' => 'Jane', 'uuid' => 'a2234d7c-6de7-4b28-aa34-39d57f3d35e3'],
     ];
