@@ -31,10 +31,10 @@
         "source": "https://github.com/usemuffin/obfuscate"
     },
     "require": {
-        "cakephp/orm": "5.0.0-RC2"
+        "cakephp/orm": "5.x-dev"
     },
     "require-dev": {
-        "cakephp/cakephp": "5.0.0-RC2",
+        "cakephp/cakephp": "5.x-dev",
         "phpunit/phpunit": "^10.1.0",
         "cakephp/cakephp-codesniffer": "^5.0",
         "zackkitzmiller/tiny": "^1.3",
