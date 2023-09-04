@@ -19,7 +19,7 @@ use RuntimeException;
 class ObfuscateBehavior extends Behavior
 {
     /**
-     * @inheritDoc
+     * @var array<string, mixed>
      */
     protected array $_defaultConfig = [
         'strategy' => null,
