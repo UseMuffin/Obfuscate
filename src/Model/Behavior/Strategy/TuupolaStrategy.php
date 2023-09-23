@@ -46,6 +46,6 @@ class TuupolaStrategy implements StrategyInterface
      */
     public function elucidate(int|string $str): int
     {
-        return $this->tuupola->decodeInteger($str);
+        return $this->tuupola->decodeInteger((string)$str);
     }
 }
