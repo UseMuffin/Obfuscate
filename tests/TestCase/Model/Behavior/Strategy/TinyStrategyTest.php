@@ -11,12 +11,10 @@ class TinyStrategyTest extends TestCase
     /**
      * @var \Muffin\Obfuscate\Model\Behavior\Strategy\TinyStrategy;
      */
-    public $strategy;
+    public TinyStrategy $strategy;
 
     public function setUp(): void
     {
-        $this->skipIf(PHP_VERSION_ID >= 80000, 'Tiny doesn\'t have PHP 8 support');
-
         $this->strategy = new TinyStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B');
     }
 

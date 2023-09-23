@@ -31,20 +31,18 @@
         "source": "https://github.com/usemuffin/obfuscate"
     },
     "require": {
-        "cakephp/orm": "5.x-dev"
+        "cakephp/orm": "^5.0.0"
     },
     "require-dev": {
-        "cakephp/cakephp": "5.x-dev",
+        "cakephp/cakephp": "^5.0.0",
         "phpunit/phpunit": "^10.1.0",
         "cakephp/cakephp-codesniffer": "^5.0",
-        "zackkitzmiller/tiny": "^1.3",
         "jenssegers/optimus": "^1.1.1",
-        "hashids/hashids": "^1.0.5"
+        "hashids/hashids": "^1.0.5",
+        "tuupola/base62": "^2.1"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "suggest": {
-        "zackkitzmiller/tiny": "A reversible base62 ID obfuscater",
+        "tuupola/base62": "Base62 encoder and decoder for arbitrary data",
         "jenssegers/optimus": "Id obfuscation based on Knuth's multiplicative hashing method",
         "hashids/hashids": "Generate hashids like YouTube or Bitly from numbers to obfuscate your database primary ids, or navigate to the right shard"
     },

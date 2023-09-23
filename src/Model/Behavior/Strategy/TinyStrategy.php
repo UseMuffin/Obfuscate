@@ -3,27 +3,19 @@ declare(strict_types=1);
 
 namespace Muffin\Obfuscate\Model\Behavior\Strategy;
 
-use ZackKitzmiller\Tiny;
-
 /**
  * Class TinyStrategy
+ *
+ * @deprecated Use Muffin\Obfuscate\Model\Behavior\Strategy\TuupolaStrategy instead
  */
 class TinyStrategy implements StrategyInterface
 {
     /**
-     * Random alpha-numeric set where each character must only be
-     * used exactly once.
+     * TuupolaStrategy
      *
-     * @var string
+     * @var \Muffin\Obfuscate\Model\Behavior\Strategy\TuupolaStrategy
      */
-    protected string $_set;
-
-    /**
-     * Obfuscator.
-     *
-     * @var \ZackKitzmiller\Tiny
-     */
-    protected Tiny $_tiny;
+    private TuupolaStrategy $tuupolaStrategy;
 
     /**
      * Constructor.
@@ -32,8 +24,7 @@ class TinyStrategy implements StrategyInterface
      */
     public function __construct(string $set)
     {
-        $this->_set = $set;
-        $this->_tiny = new Tiny($set);
+        $this->tuupolaStrategy = new TuupolaStrategy($set);
     }
 
     /**
@@ -41,7 +32,7 @@ class TinyStrategy implements StrategyInterface
      */
     public function obfuscate(string|int $str): string
     {
-        return $this->_tiny->to((string)$str);
+        return $this->tuupolaStrategy->obfuscate($str);
     }
 
     /**
@@ -49,6 +40,6 @@ class TinyStrategy implements StrategyInterface
      */
     public function elucidate(string|int $str): int
     {
-        return $this->_tiny->from($str);
+        return $this->tuupolaStrategy->elucidate($str);
     }
 }
