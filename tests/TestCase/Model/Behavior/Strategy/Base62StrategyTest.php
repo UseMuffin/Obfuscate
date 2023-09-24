@@ -4,18 +4,18 @@ declare(strict_types=1);
 namespace Model\Behavior\Strategy;
 
 use Cake\TestSuite\TestCase;
-use Muffin\Obfuscate\Model\Behavior\Strategy\TuupolaStrategy;
+use Muffin\Obfuscate\Model\Behavior\Strategy\Base62Strategy;
 
-class TuupolaStrategyTest extends TestCase
+class Base62StrategyTest extends TestCase
 {
     /**
-     * @var \Muffin\Obfuscate\Model\Behavior\Strategy\TuupolaStrategy
+     * @var \Muffin\Obfuscate\Model\Behavior\Strategy\Base62Strategy
      */
-    public TuupolaStrategy $strategy;
+    public Base62Strategy $strategy;
 
     public function setUp(): void
     {
-        $this->strategy = new TuupolaStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B');
+        $this->strategy = new Base62Strategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B');
     }
 
     public function testObfuscate(): void

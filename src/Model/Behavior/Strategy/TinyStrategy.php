@@ -5,17 +5,15 @@ namespace Muffin\Obfuscate\Model\Behavior\Strategy;
 
 /**
  * Class TinyStrategy
- *
- * @deprecated Use Muffin\Obfuscate\Model\Behavior\Strategy\TuupolaStrategy instead
  */
 class TinyStrategy implements StrategyInterface
 {
     /**
      * TuupolaStrategy
      *
-     * @var \Muffin\Obfuscate\Model\Behavior\Strategy\TuupolaStrategy
+     * @var \Muffin\Obfuscate\Model\Behavior\Strategy\Base62Strategy
      */
-    private TuupolaStrategy $tuupolaStrategy;
+    private Base62Strategy $base62Strategy;
 
     /**
      * Constructor.
@@ -24,7 +22,7 @@ class TinyStrategy implements StrategyInterface
      */
     public function __construct(string $set)
     {
-        $this->tuupolaStrategy = new TuupolaStrategy($set);
+        $this->base62Strategy = new Base62Strategy($set);
     }
 
     /**
@@ -32,7 +30,7 @@ class TinyStrategy implements StrategyInterface
      */
     public function obfuscate(string|int $str): string
     {
-        return $this->tuupolaStrategy->obfuscate($str);
+        return $this->base62Strategy->obfuscate($str);
     }
 
     /**
@@ -40,6 +38,6 @@ class TinyStrategy implements StrategyInterface
      */
     public function elucidate(string|int $str): int
     {
-        return $this->tuupolaStrategy->elucidate($str);
+        return $this->base62Strategy->elucidate($str);
     }
 }

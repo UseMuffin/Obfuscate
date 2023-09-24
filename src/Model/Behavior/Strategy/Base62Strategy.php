@@ -7,16 +7,16 @@ use InvalidArgumentException;
 use Tuupola\Base62;
 
 /**
- * Class TuupolaStrategy
+ * Class Base62Strategy
  */
-class TuupolaStrategy implements StrategyInterface
+class Base62Strategy implements StrategyInterface
 {
     /**
      * Obfuscator.
      *
      * @var \Tuupola\Base62
      */
-    private Base62 $tuupola;
+    private Base62 $base62;
 
     /**
      *  Constructor.
@@ -26,7 +26,7 @@ class TuupolaStrategy implements StrategyInterface
     public function __construct(?string $set = null)
     {
         $options = $set ? ['characters' => $set] : [];
-        $this->tuupola = new Base62($options);
+        $this->base62 = new Base62($options);
     }
 
     /**
@@ -38,7 +38,7 @@ class TuupolaStrategy implements StrategyInterface
             throw new InvalidArgumentException('Argument should be an integer');
         }
 
-        return $this->tuupola->encodeInteger((int)$str);
+        return $this->base62->encodeInteger((int)$str);
     }
 
     /**
@@ -46,6 +46,6 @@ class TuupolaStrategy implements StrategyInterface
      */
     public function elucidate(int|string $str): int
     {
-        return $this->tuupola->decodeInteger((string)$str);
+        return $this->base62->decodeInteger((string)$str);
     }
 }

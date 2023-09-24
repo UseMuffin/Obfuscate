@@ -5,7 +5,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/muffin/obfuscate.svg?style=flat-square)](https://packagist.org/packages/muffin/obfuscate)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 
-Primary key obfuscation for CakePHP using HashIds, Optimus, Tiny and/or custom obfuscation strategies.
+Primary key obfuscation for CakePHP using HashIds, Optimus, Tiny, Base62 and/or custom obfuscation strategies.
 
 ## Installation
 
@@ -33,7 +33,7 @@ want to use in your application:
 ```
 composer require hashids/hashids
 composer require jenssegers/optimus
-composer require zackkitzmiller/tiny
+composer require tuupola/base62
 ```
 
 ## Built-in obfuscation strategies
@@ -48,7 +48,7 @@ Use the [OptimusStrategy](https://github.com/jenssegers/optimus) if you want to:
 - obfuscate your primary keys with integers based on Knuth's integer hash
 - present record ids like 347 as integers like 372555994
 
-Use the [TinyStrategy](https://github.com/zackkitzmiller/tiny-php) if you want to:
+Use the [Base62Strategy](https://github.com/tuupola/base62) (or [TinyStrategy] for backward compatibility) if you want to:
 
 - obfuscate your primary keys with base62 strings and integers
 - present record ids like 347 as strings like "vk"
@@ -90,12 +90,12 @@ $this->addBehavior('Muffin/Obfuscate.Obfuscate', [
 ```
 
 ```php
-use Muffin\Obfuscate\Model\Behavior\Strategy\TinyStrategy;
+use Muffin\Obfuscate\Model\Behavior\Strategy\Base62Strategy;
 
 $this->addBehavior('Muffin/Obfuscate.Obfuscate', [
     // Strategy constructor parameters:
     // $set - Random alpha-numeric set where each character must only be used exactly once
-    'strategy' => new TinyStrategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B')
+    'strategy' => new Base62Strategy('5SX0TEjkR1mLOw8Gvq2VyJxIFhgCAYidrclDWaM3so9bfzZpuUenKtP74QNH6B')
 ]);
 ```
 
