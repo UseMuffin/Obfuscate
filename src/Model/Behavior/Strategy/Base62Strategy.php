@@ -16,16 +16,16 @@ class Base62Strategy implements StrategyInterface
      *
      * @var \Tuupola\Base62
      */
-    private Base62 $base62;
+    protected Base62 $base62;
 
     /**
      *  Constructor.
      *
-     * @param string|null $set Random alpha-numeric set.
+     * @param string|null $charset Random alpha-numeric set.
      */
-    public function __construct(?string $set = null)
+    public function __construct(?string $charset = null)
     {
-        $options = $set ? ['characters' => $set] : [];
+        $options = $charset ? ['characters' => $charset] : [];
         $this->base62 = new Base62($options);
     }
 

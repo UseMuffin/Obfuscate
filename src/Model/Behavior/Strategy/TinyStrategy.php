@@ -11,11 +11,11 @@ namespace Muffin\Obfuscate\Model\Behavior\Strategy;
 class TinyStrategy implements StrategyInterface
 {
     /**
-     * TuupolaStrategy
+     * Base62Strategy
      *
      * @var \Muffin\Obfuscate\Model\Behavior\Strategy\Base62Strategy
      */
-    private Base62Strategy $base62Strategy;
+    protected Base62Strategy $base62Strategy;
 
     /**
      * Constructor.
