@@ -5,7 +5,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/muffin/obfuscate.svg?style=flat-square)](https://packagist.org/packages/muffin/obfuscate)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 
-Primary key obfuscation for CakePHP using HashIds, Optimus, Tiny, Base62 and/or custom obfuscation strategies.
+Primary key obfuscation for CakePHP using HashIds, Optimus, Base62 and/or custom obfuscation strategies.
 
 ## Installation
 
@@ -48,7 +48,7 @@ Use the [OptimusStrategy](https://github.com/jenssegers/optimus) if you want to:
 - obfuscate your primary keys with integers based on Knuth's integer hash
 - present record ids like 347 as integers like 372555994
 
-Use the [Base62Strategy](https://github.com/tuupola/base62) (or [TinyStrategy] for backward compatibility) if you want to:
+Use the [Base62Strategy](https://github.com/tuupola/base62) if you want to:
 
 - obfuscate your primary keys with base62 strings and integers
 - present record ids like 347 as strings like "vk"

@@ -5,6 +5,8 @@ namespace Muffin\Obfuscate\Model\Behavior\Strategy;
 
 /**
  * Class TinyStrategy
+ *
+ * @deprecated Use Muffin\Obfuscate\Model\Behavior\Strategy\Base62Strategy instead
  */
 class TinyStrategy implements StrategyInterface
 {
