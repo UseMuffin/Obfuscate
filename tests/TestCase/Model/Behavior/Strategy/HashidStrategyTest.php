@@ -12,7 +12,7 @@ class HashidStrategyTest extends TestCase
     /**
      * @var \Muffin\Obfuscate\Model\Behavior\Strategy\HashidStrategy;
      */
-    public $strategy;
+    public HashidStrategy $strategy;
 
     public function setUp(): void
     {

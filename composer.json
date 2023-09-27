@@ -31,17 +31,18 @@
         "source": "https://github.com/usemuffin/obfuscate"
     },
     "require": {
-        "cakephp/orm": "^4.1"
+        "cakephp/orm": "^5.0.0"
     },
     "require-dev": {
-        "cakephp/cakephp": "^4.1",
-        "phpunit/phpunit": "~8.5.0",
-        "zackkitzmiller/tiny": "^1.2",
-        "jenssegers/optimus": "^0.2",
-        "hashids/hashids": "^1.0.5"
+        "cakephp/cakephp": "^5.0.0",
+        "phpunit/phpunit": "^10.1.0",
+        "cakephp/cakephp-codesniffer": "^5.0",
+        "jenssegers/optimus": "^1.1.1",
+        "hashids/hashids": "^1.0.5",
+        "tuupola/base62": "^2.1"
     },
     "suggest": {
-        "zackkitzmiller/tiny": "A reversible base62 ID obfuscater",
+        "tuupola/base62": "Base62 encoder and decoder for arbitrary data",
         "jenssegers/optimus": "Id obfuscation based on Knuth's multiplicative hashing method",
         "hashids/hashids": "Generate hashids like YouTube or Bitly from numbers to obfuscate your database primary ids, or navigate to the right shard"
     },
@@ -54,5 +55,24 @@
         "psr-4": {
             "Muffin\\Obfuscate\\Test\\": "tests"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "scripts": {
+        "cs-check": "phpcs --colors --parallel=16 -p src/ tests/",
+        "cs-fix": "phpcbf --colors --parallel=16 -p src/ tests/",
+        "phpstan": "tools/phpstan analyse",
+        "psalm": "tools/psalm --show-info=false",
+        "stan": [
+            "@phpstan",
+            "@psalm"
+        ],
+        "stan-baseline": "tools/phpstan --generate-baseline",
+        "psalm-baseline": "tools/psalm  --set-baseline=psalm-baseline.xml",
+        "stan-setup": "phive install",
+        "test": "phpunit"
     }
 }

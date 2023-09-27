@@ -8,7 +8,7 @@ use Cake\Database\Expression\ComparisonExpression;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use InvalidArgumentException;
 use Muffin\Obfuscate\Model\Behavior\Strategy\StrategyInterface;
 use RuntimeException;
@@ -19,9 +19,9 @@ use RuntimeException;
 class ObfuscateBehavior extends Behavior
 {
     /**
-     * @inheritDoc
+     * @var array<string, mixed>
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'strategy' => null,
         'implementedFinders' => [
             'obfuscated' => 'findObfuscated',
@@ -73,7 +73,7 @@ class ObfuscateBehavior extends Behavior
      * @param \ArrayObject $options Options.
      * @return void
      */
-    public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
+    public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void
     {
         $pk = $this->_table->getPrimaryKey();
         if (is_array($pk)) {
@@ -87,12 +87,12 @@ class ObfuscateBehavior extends Behavior
      * Callback to set the `obfuscated` finder on all associations.
      *
      * @param \Cake\Event\EventInterface $event EventInterface.
-     * @param \Cake\ORM\Query $query Query.
+     * @param \Cake\ORM\Query\SelectQuery $query Query.
      * @param \ArrayObject $options Options.
      * @param bool $primary True if this is the primary table.
      * @return void
      */
-    public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, bool $primary)
+    public function beforeFind(EventInterface $event, SelectQuery $query, ArrayObject $options, bool $primary): void
     {
         if (empty($options['obfuscate']) || !$primary) {
             return;
@@ -124,11 +124,10 @@ class ObfuscateBehavior extends Behavior
     /**
      * Custom finder to search for records using an obfuscated primary key.
      *
-     * @param \Cake\ORM\Query $query Query.
-     * @param array $options Options.
-     * @return \Cake\ORM\Query
+     * @param \Cake\ORM\Query\SelectQuery $query Query.
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findObfuscated(Query $query, array $options)
+    public function findObfuscated(SelectQuery $query): SelectQuery
     {
         return $query->applyOptions(['obfuscate' => true]);
     }
@@ -136,11 +135,10 @@ class ObfuscateBehavior extends Behavior
     /**
      * Custom finder that obfuscates primary keys in returned result set.
      *
-     * @param \Cake\ORM\Query $query Query.
-     * @param array $options Options.
-     * @return \Cake\ORM\Query
+     * @param \Cake\ORM\Query\SelectQuery $query Query.
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findObfuscate(Query $query, array $options)
+    public function findObfuscate(SelectQuery $query): SelectQuery
     {
         $query->applyOptions(['obfuscate' => true]);
 
@@ -162,7 +160,7 @@ class ObfuscateBehavior extends Behavior
      * @param string|int $str String to obfuscate.
      * @return string
      */
-    public function obfuscate($str): string
+    public function obfuscate(string|int $str): string
     {
         return $this->strategy()->obfuscate($str);
     }
@@ -170,10 +168,10 @@ class ObfuscateBehavior extends Behavior
     /**
      * Proxy to the obfuscating strategy's `elucidate()`.
      *
-     * @param int|string $str String to elucidate.
+     * @param string|int $str String to elucidate.
      * @return int
      */
-    public function elucidate($str): int
+    public function elucidate(string|int $str): int
     {
         return $this->strategy()->elucidate($str);
     }

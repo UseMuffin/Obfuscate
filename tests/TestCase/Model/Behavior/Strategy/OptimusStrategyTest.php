@@ -11,7 +11,7 @@ class OptimusStrategyTest extends TestCase
     /**
      * @var \Muffin\Obfuscate\Model\Behavior\Strategy\OptimusStrategy;
      */
-    public $strategy;
+    public OptimusStrategy $strategy;
 
     public function setUp(): void
     {

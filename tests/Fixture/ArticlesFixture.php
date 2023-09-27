@@ -7,28 +7,14 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 class ArticlesFixture extends TestFixture
 {
-    public $table = 'obfuscate_articles';
-
-    /**
-     * fields property
-     *
-     * @var array
-     */
-    public $fields = [
-        'id' => ['type' => 'integer'],
-        'author_id' => ['type' => 'integer'],
-        'title' => ['type' => 'string', 'null' => false],
-        'created' => ['type' => 'datetime', 'null' => true],
-        'modified' => ['type' => 'datetime', 'null' => true],
-        '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
-    ];
+    public string $table = 'obfuscate_articles';
 
     /**
      * records property
      *
      * @var array
      */
-    public $records = [
+    public array $records = [
         ['author_id' => 1, 'title' => 'First Article'],
         ['author_id' => 2, 'title' => 'Second Article'],
     ];

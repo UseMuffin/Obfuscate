@@ -7,27 +7,14 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 class TagsFixture extends TestFixture
 {
-    public $table = 'obfuscate_tags';
-
-    /**
-     * fields property
-     *
-     * @var array
-     */
-    public $fields = [
-        'id' => ['type' => 'integer'],
-        'name' => ['type' => 'string', 'null' => false],
-        'created' => ['type' => 'datetime', 'null' => true],
-        'modified' => ['type' => 'datetime', 'null' => true],
-        '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
-    ];
+    public string $table = 'obfuscate_tags';
 
     /**
      * records property
      *
      * @var array
      */
-    public $records = [
+    public array $records = [
         ['name' => 'Foo'],
         ['name' => 'Bar'],
     ];

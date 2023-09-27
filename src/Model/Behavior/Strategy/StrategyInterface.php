@@ -11,16 +11,16 @@ interface StrategyInterface
     /**
      * Obfuscates a given integer/string.
      *
-     * @param int|string $str String to obfuscate.
+     * @param string|int $str String to obfuscate.
      * @return string
      */
-    public function obfuscate($str): string;
+    public function obfuscate(string|int $str): string;
 
     /**
      * Elucidates (de-obfuscates) a given string.
      *
-     * @param int|string $str String to elucidate.
+     * @param string|int $str String to elucidate.
      * @return int
      */
-    public function elucidate($str): int;
+    public function elucidate(string|int $str): int;
 }

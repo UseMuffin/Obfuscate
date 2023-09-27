@@ -36,7 +36,7 @@ class ObfuscateBehaviorTest extends TestCase
      */
     protected $Obfuscate;
 
-    protected $fixtures = [
+    protected array $fixtures = [
         'plugin.Muffin/Obfuscate.Articles',
         'plugin.Muffin/Obfuscate.Authors',
         'plugin.Muffin/Obfuscate.Comments',
@@ -59,15 +59,15 @@ class ObfuscateBehaviorTest extends TestCase
             ->getMock();
         $strategy->expects($this->any())
             ->method('obfuscate')
-            ->will($this->returnCallback(function ($id) {
+            ->willReturnCallback(function ($id) {
                 return 'a' . $id;
-            }));
+            });
 
         $strategy->expects($this->any())
             ->method('elucidate')
-            ->will($this->returnCallback(function ($hashId) {
+            ->willReturnCallback(function ($hashId) {
                 return (int)substr($hashId, 1);
-            }));
+            });
 
         $this->Tags = $this->getTableLocator()->get('Muffin/Obfuscate.Tags', ['table' => 'obfuscate_tags']);
         $this->Tags->addBehavior('Muffin/Obfuscate.Obfuscate', [

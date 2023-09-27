@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Muffin\Obfuscate\Model\Behavior\Strategy;
 
 use Cake\Core\Configure;
+use Exception;
 use Hashids\Hashids;
 
 /**
@@ -16,14 +17,14 @@ class HashidStrategy implements StrategyInterface
      *
      * @var \Hashids\Hashids
      */
-    protected $_hashid;
+    protected Hashids $_hashid;
 
     /**
      * Constructor.
      *
-     * @param string $salt Random alpha-numeric set.
+     * @param string|null $salt Random alpha-numeric set.
      * @param int $minLength The minimum hash length.
-     * @param string $alphabet Custom alphabet to use.
+     * @param string|null $alphabet Custom alphabet to use.
      * @throws \Exception
      */
     public function __construct(?string $salt = null, int $minLength = 0, ?string $alphabet = null)
@@ -32,7 +33,7 @@ class HashidStrategy implements StrategyInterface
             $salt = Configure::read('Obfuscate.salt');
         }
         if (empty($salt)) {
-            throw new \Exception('Missing salt for Hashid strategy');
+            throw new Exception('Missing salt for Hashid strategy');
         }
 
         if ($alphabet === null) {
@@ -45,7 +46,7 @@ class HashidStrategy implements StrategyInterface
     /**
      * @inheritDoc
      */
-    public function obfuscate($str): string
+    public function obfuscate(string|int $str): string
     {
         return $this->_hashid->encode((string)$str);
     }
@@ -53,7 +54,7 @@ class HashidStrategy implements StrategyInterface
     /**
      * @inheritDoc
      */
-    public function elucidate($str): int
+    public function elucidate(string|int $str): int
     {
         return current($this->_hashid->decode((string)$str));
     }
