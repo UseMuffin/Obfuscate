@@ -1,6 +1,7 @@
 # Obfuscate
 
-[![Build Status](https://img.shields.io/github/workflow/status/UseMuffin/Obfuscate/CI/master?style=flat-square)](https://github.com/UseMuffin/Obfuscate/actions?query=workflow%3ACI+branch%3Amaster)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/UseMuffin/Obfuscate/ci.yml?style=flat-square&branch=master
+)](https://github.com/UseMuffin/Obfuscate/actions?query=workflow%3ACI+branch%3Amaster)
 [![Coverage Status](https://img.shields.io/codecov/c/github/UseMuffin/Obfuscate.svg?style=flat-square)](https://codecov.io/github/UseMuffin/Obfuscate)
 [![Total Downloads](https://img.shields.io/packagist/dt/muffin/obfuscate.svg?style=flat-square)](https://packagist.org/packages/muffin/obfuscate)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
@@ -27,14 +28,8 @@ or by manually adding the following line to `src/Application.php`:
 $this->addPlugin('Muffin/Obfuscate');
 ```
 
-Lastly, composer install (any combination of) the obfuscation libraries you
-want to use in your application:
-
-```
-composer require hashids/hashids
-composer require jenssegers/optimus
-composer require tuupola/base62
-```
+Lastly, install the required obfuscation library depending on the strategy class
+you want to use and stated below.
 
 ## Built-in obfuscation strategies
 
@@ -43,17 +38,29 @@ Use the [HashIdStrategy](http://hashids.org/) if you want to:
 - obfuscate your primary keys with short, unique, non-sequential ids
 - present record ids like 347 as strings like “yr8”
 
+```
+composer require hashids/hashids
+```
+
 Use the [OptimusStrategy](https://github.com/jenssegers/optimus) if you want to:
 
 - obfuscate your primary keys with integers based on Knuth's integer hash
 - present record ids like 347 as integers like 372555994
+
+```
+composer require jenssegers/optimus
+```
 
 Use the [Base62Strategy](https://github.com/tuupola/base62) if you want to:
 
 - obfuscate your primary keys with base62 strings and integers
 - present record ids like 347 as strings like "vk"
 
-> You may also choose to create your own custom strategies, feel free to PR.
+```
+composer require tuupola/base62
+```
+
+You can also create your own strategy classes by implementing the `StrategyInterface`.
 
 ## Usage
 
@@ -128,7 +135,7 @@ public function view($id)
 
 Crud plugin example:
 ```php
-public function view()
+public function view($id)
 {
     $this->Crud->on('beforeFind', function (EventInterface $event) {
         $event->subject()->query->find('obfuscated');
@@ -161,8 +168,7 @@ public function index()
 
 ### Methods
 
-Attaching the behavior also makes the following two methods
-available on the table:
+Attaching the behavior also makes the following two methods available on the table:
 
 - `obfuscate(string $str)`
 - `elucidate(string $str)`
@@ -171,22 +177,9 @@ available on the table:
 
 ### Authentication
 
-A fairly common use case is applying obfuscation to user ids. To ensure
-AuthComponent properly handles obfuscated ids specify the `obfuscated` finder
-in your `authenticate` configuration settings like shown below:
-
-```php
-'authenticate' => [
-     'ADmad/JwtAuth.Jwt' => [
-        'finder' => 'obfuscated', // will use passed id `S` to search for record id 1
-        'userModel' => 'Users',
-        'fields' => [
-            'username' => 'id'
-        ],
-        'parameter' => 'token'
-    ]
-]
-```
+A fairly common use case is applying obfuscation to user ids. To ensure the
+Authentication plugin properly handles obfuscated ids, specify the `obfuscated` finder
+using the `finder` key in your [identifier's resolver](https://book.cakephp.org/authentication/3/en/identifiers.html) config.
 
 ## Patches & Features
 
@@ -205,10 +198,10 @@ http://github.com/usemuffin/obfuscate/issues
 
 ## License
 
-Copyright (c) 2015, [Use Muffin][muffin] and licensed under [The MIT License][mit].
+Copyright (c) 2015-Present, [Use Muffin][muffin] and licensed under [The MIT License][mit].
 
 [cakephp]:http://cakephp.org
 [composer]:http://getcomposer.org
 [mit]:http://www.opensource.org/licenses/mit-license.php
 [muffin]:http://usemuffin.com
-[standards]:http://book.cakephp.org/3.0/en/contributing/cakephp-coding-conventions.html
+[standards]:http://book.cakephp.org/5.0/en/contributing/cakephp-coding-conventions.html
